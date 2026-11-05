@@ -1,0 +1,40 @@
+{
+  "name": "directed-graph",
+  "comment": "107 有向图完整 spec（已通过对比验收）。坐标系=源图像素, y 向下。顶点与边方向经高倍核验。",
+  "canvas": { "width": 808, "height": 542, "dpi": 100, "background": "#ffffff" },
+  "ink": "#1a1a1a",
+  "line_width_px": 3.0,
+  "font": { "family": "Liberation Serif", "fallbacks": ["Nimbus Roman", "DejaVu Serif"], "math": "stix" },
+  "elements": [
+    { "type": "line", "from": [104, 76], "to": [676, 82] },
+    { "type": "line", "from": [676, 82], "to": [400, 445] },
+    { "type": "line", "from": [104, 76], "to": [400, 445] },
+    { "type": "line", "from": [104, 76], "to": [397, 237] },
+    { "type": "line", "from": [676, 82], "to": [397, 237] },
+    { "type": "line", "from": [400, 445], "to": [397, 237] },
+
+    { "type": "arrow", "from": [104, 76], "to": [676, 82], "style": "stealth", "length": 33, "width": 31, "notch": 12, "position": 0.5 },
+    { "type": "arrow", "from": [676, 82], "to": [400, 445], "style": "stealth", "length": 33, "width": 31, "notch": 12, "position": 0.5 },
+    { "type": "arrow", "from": [104, 76], "to": [400, 445], "style": "stealth", "length": 33, "width": 31, "notch": 12, "position": 0.5 },
+    { "type": "arrow", "from": [104, 76], "to": [397, 237], "style": "stealth", "length": 33, "width": 31, "notch": 12, "position": 0.5 },
+    { "type": "arrow", "from": [676, 82], "to": [397, 237], "style": "stealth", "length": 33, "width": 31, "notch": 12, "position": 0.5 },
+    { "type": "arrow", "from": [400, 445], "to": [397, 237], "style": "stealth", "length": 33, "width": 31, "notch": 12, "position": 0.5 },
+
+    { "type": "dot", "at": [104, 76], "r": 10 },
+    { "type": "dot", "at": [676, 82], "r": 10 },
+    { "type": "dot", "at": [400, 445], "r": 10 },
+    { "type": "dot", "at": [397, 237], "r": 10 },
+
+    { "type": "label", "text": "1", "x": 88, "y": 91, "size_px": 46, "weight": "bold", "align": "right", "valign": "baseline" },
+    { "type": "label", "text": "2", "x": 692, "y": 101, "size_px": 46, "weight": "bold", "align": "left", "valign": "baseline" },
+    { "type": "label", "text": "3", "x": 400, "y": 505, "size_px": 46, "weight": "bold", "align": "center", "valign": "baseline" },
+    { "type": "label", "text": "4", "x": 360, "y": 277, "size_px": 46, "weight": "bold", "align": "center", "valign": "baseline" },
+
+    { "type": "label", "math": "\\boldsymbol{y}_1", "x": 385, "y": 41, "size_px": 46, "align": "center", "valign": "center" },
+    { "type": "label", "math": "\\boldsymbol{y}_2", "x": 585, "y": 288, "size_px": 46, "align": "center", "valign": "center" },
+    { "type": "label", "math": "\\boldsymbol{y}_3", "x": 218, "y": 288, "size_px": 46, "align": "center", "valign": "center" },
+    { "type": "label", "math": "\\boldsymbol{y}_4", "x": 288, "y": 142, "size_px": 46, "align": "center", "valign": "center" },
+    { "type": "label", "math": "\\boldsymbol{y}_5", "x": 492, "y": 140, "size_px": 46, "align": "center", "valign": "center" },
+    { "type": "label", "math": "\\boldsymbol{y}_6", "x": 360, "y": 318, "size_px": 46, "align": "center", "valign": "center" }
+  ]
+}

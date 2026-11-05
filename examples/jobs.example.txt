@@ -1,0 +1,11 @@
+# jobs.example.txt — runner.py 任务清单示例（每行一个 {id}, # 为注释）
+#
+# 注意（宪法第三/十条）: 目录驱动批量优先用 batch.py（自动扫描 src/、建 plan、
+# 写 handoff）:   python3 scripts/batch.py --project <名> --pack <pack>
+# 本文件只是底层执行核心 runner.py 的兜底示例（手工逐页指定时才用）:
+#   python3 scripts/runner.py --jobs examples/jobs.example.txt \
+#     --cmd "python3 packs/split-text-image/scripts/detect_figures.py --page {id} --image in/{id}.png --out build/{id}" \
+#     --sleep 3 --maxseconds 1800
+0101
+0107
+0138
