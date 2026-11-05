@@ -10,8 +10,9 @@
 #   1) --project 给出且非 --force 时, 校验 project/<名>/handoff.md 已有 SEND 记录,
 #      未写交接拒绝打包（第十一条③: 交接先行）;
 #   2) 删除 figforge/.work/（临时工作区整目录清理; --keep-work 仅调试保留）;
-#   3) 把整个 figforge/ 打包为 .tar.gz（排除 .work / __pycache__ / *.pyc / *.tar.gz）,
-#      落 --out 目录（默认 $FIGFORGE_OUT, 再默认 /home/z/my-project/download/）。
+#   3) 把整个 figforge/ 打包为 .tar.gz（排除 .work / .git / __pycache__ / *.pyc / *.tar.gz）,
+#      落 --out 目录（默认 $FIGFORGE_OUT, 再默认 /home/z/my-project/download/）;
+#      --no-project 额外排除 project/（交付快照不含项目工作区, 第十一条③）。
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -20,13 +21,14 @@ NAME="figforge"
 PROJECT=""
 KEEP_WORK=0
 FORCE=0
+NO_PROJECT=0
 
 usage() {
   cat <<'EOF'
 figforge :: complete.sh —— 完成协议收尾（宪法第十一条）
 
 用法:
-  complete.sh [--project <名>] [--out <目录>] [--name <包名>] [--keep-work] [--force]
+  complete.sh [--project <名>] [--out <目录>] [--name <包名>] [--no-project] [--keep-work] [--force]
 
 角色完成本棒任务的三步:
   ① 写好 handoff:  python3 scripts/handoff.py send --project <名> --from <我> --to <下一棒> ...
@@ -37,6 +39,7 @@ figforge :: complete.sh —— 完成协议收尾（宪法第十一条）
   --project <名>  校验 project/<名>/handoff.md 已有 SEND 记录（未写交接拒绝打包）
   --out <目录>    包落点（默认 $FIGFORGE_OUT 或 /home/z/my-project/download/）
   --name <包名>   包基础名（默认 figforge → figforge-<时间戳>.tar.gz）
+  --no-project    打包排除 project/（交付快照不含项目工作区, 第十一条③）
   --keep-work     调试用: 保留 .work/ 不清理
   --force         跳过 handoff 校验
 EOF
@@ -49,6 +52,7 @@ while [ $# -gt 0 ]; do
     --out)       OUT="${2:?--out 需要目录}"; shift 2 ;;
     --name)      NAME="${2:?--name 需要包名}"; shift 2 ;;
     --keep-work) KEEP_WORK=1; shift ;;
+    --no-project) NO_PROJECT=1; shift ;;
     --force)     FORCE=1; shift ;;
     -h|--help)   usage ;;
     *) echo "complete.sh: 未知参数 $1（--help 看用法）" >&2; exit 1 ;;
@@ -94,9 +98,16 @@ fi
 mkdir -p "$OUT"
 stamp="$(date +%Y%m%d-%H%M%S)"
 pkg="$OUT/${NAME}-${stamp}.tar.gz"
-tar --exclude='.work' --exclude='__pycache__' --exclude='*.pyc' \
-    --exclude='*.tar.gz' --exclude='.DS_Store' \
-    -czf "$pkg" -C "$(dirname "$ROOT")" "$(basename "$ROOT")"
+EXCLUDES=(--exclude='.work' --exclude='.git' --exclude='__pycache__' --exclude='*.pyc'
+          --exclude='*.tar.gz' --exclude='.DS_Store')
+if [ "$NO_PROJECT" -eq 1 ]; then
+  EXCLUDES+=(--exclude="$(basename "$ROOT")/project")
+fi
+tar "${EXCLUDES[@]}" -czf "$pkg" -C "$(dirname "$ROOT")" "$(basename "$ROOT")"
 echo "[complete] ✓ 交付快照: $pkg ($(du -h "$pkg" | cut -f1))"
-echo "[complete]   内容 = figforge/ 全仓库（CONSTITUTION + AGENTS + packs + roles + scripts + project/ 产物）"
+if [ "$NO_PROJECT" -eq 1 ]; then
+  echo "[complete]   --no-project: 已排除 project/（交付快照不含项目工作区, 第十一条③）"
+else
+  echo "[complete]   内容 = figforge/ 全仓库（CONSTITUTION + AGENTS + packs + roles + scripts + project/ 产物）"
+fi
 echo "[complete] 完成协议已履行（第十一条）: handoff → 清 .work → 打包"

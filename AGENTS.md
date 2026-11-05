@@ -38,9 +38,11 @@ python3 scripts/batch.py --project <名> --pack html-svg
 
 - `forge.sh`：list（输出本清单）/ doctor（依赖自检）/ new（建项目）
   / clean（清空 project/ 重置工作区, 第十一条⑤）/ install（组合安装）
-- `batch.py`（批量入口）/ `runner.py`（串行核心）/ `plan.py`（计划核销）
+- `batch.py`（批量入口, 段末自动备份接力, 第一条②）/ `runner.py`（串行核心）
+  / `plan.py`（计划核销）
 - `handoff.py`（交接板: 每 发→收 一条, send 就地更新, 附录+第十三条）
-  / `archive.sh`（归档）/ `probe-429.sh`（限流探测）
+  / `archive.sh`（归档: 无参数 = 自动备份 project/ 排除各项目 src/, 第一条①）
+  / `probe-429.sh`（限流探测）
 - `notes.py`（经验库, 第十二/十三条: add 沉淀（同现象自动合并）/ show 检索
   / reindex 重建 INDEX.md）
 - `complete.sh`（完成协议, 第十一条: 校验 handoff → 清 `.work` → 打包 figforge 为 .tar.gz）
@@ -62,7 +64,8 @@ python3 scripts/batch.py --project <名> --pack html-svg
    `python3 scripts/handoff.py send --project <名> --from <我> --to <下一棒>`
    （同一 发→收 就地更新, 不逐次追加）；
    开工先 `handoff.py show --project <名> --to <我>`；
-   收工 `plan.py done` + `scripts/archive.sh project/<名>/dest`。
+   收工 `plan.py done`（批量归档由 batch.py 每段自动执行, 第一条②; 最终交付另
+   `scripts/archive.sh <目录> --final`）。
 6. **临时区**（第十一条）：临时产物一律写 `figforge/.work/`
    （临时工具装 `.work/tools/`）。
 7. **经验沉淀与完成**（第十二/十一条）：排障与开工接活前先

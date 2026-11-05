@@ -71,14 +71,16 @@ def run_serial(units, sleep=3.0, maxseconds=3600, state_path="run-state.json",
             if jid in state["fail"]:
                 state["fail"].remove(jid)
         elif p.returncode == 43:
-            state["fail"].append(jid)
+            if jid not in state["fail"]:
+                state["fail"].append(jid)
             save_state(state_path, state)
             print(f"[{label}] 退出码 43 = 429 风暴（宪法第六条）。立即停止, 措施:")
             print("  1) 停止一切写入;  2) scripts/probe-429.sh <任意源图> 低频探测;")
             print("  3) RECOVERED 后原样续跑（单进程 + 页间隔, 禁止报复性并发）")
             return 43
         else:
-            state["fail"].append(jid)
+            if jid not in state["fail"]:
+                state["fail"].append(jid)  # 去重: 重试失败不重复记（第十三条, 状态覆盖语义）
             print(f"[{label}] 项 {jid} 失败 (rc={p.returncode}), 记入 state, 继续", flush=True)
         save_state(state_path, state)
         ran += 1

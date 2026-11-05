@@ -30,12 +30,16 @@
   html-svg:         (compose) 逐页编排: 内嵌已发布 SVG 重排 dest/<page>.html + manifest
 
 宪法约束: 串行单进程 + 页间隔 + --maxseconds 优雅停（第三条）;
-          退出码 43 → 熔断停批转 probe-429.sh（第六条）; plan 自动核销（第二条）。
+          自动接力（宪法第一条②）: 每段优雅停后自动备份 project/（排除各项目
+          src/, 第一条①）并继续下一批, 无需人工接力; 直到全部完成 /
+          429 熔断（退出码 43 → 停批转 probe-429.sh, 第六条）或无进展止损
+          （失败项重试一轮仍无新完成即停）; plan 自动核销（第二条）。
 """
 import argparse
 import glob
 import json
 import os
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -263,7 +267,10 @@ def main():
                     help=f"阶段, 默认随 pack: {DEFAULT_STAGE}")
     ap.add_argument("--pages", default=None, help="只处理这些页, 逗号分隔（如 0101,0107）")
     ap.add_argument("--sleep", type=float, default=3.0, help="页间隔秒（宪法第三条）")
-    ap.add_argument("--maxseconds", type=int, default=3600, help="单次前台时长上限, 接力续跑")
+    ap.add_argument("--maxseconds", type=int, default=3600,
+                    help="单段时长上限, 段末自动备份并接力下一批（宪法第一条②）")
+    ap.add_argument("--max-rounds", type=int, default=0,
+                    help="自动接力段数上限（0=不限; 无进展止损兑底）")
     ap.add_argument("--dry-print", action="store_true", help="只打印将执行的命令, 不执行")
     a = ap.parse_args()
 
@@ -325,10 +332,51 @@ def main():
         print(f"[batch] dry-print 共 {len(units)} 条命令, 未执行")
         return
 
-    rc = run_serial(units, a.sleep, a.maxseconds, state_path,
-                    label=f"batch:{stage}")
-    if rc == 43:
-        sys.exit(43)  # 429 熔断: 不写 handoff, 等探测恢复后续跑（宪法第六条）
+    # ---- 自动接力（宪法第一条②）: 每段（--maxseconds 优雅停）结束后自动备份
+    # project/（排除各项目 src/, 第一条①）并继续下一批, 无需人工接力;
+    # 直到全部完成 / 429 熔断 / 无进展止损（失败项重试一轮仍无新完成即停）。
+    def _load_ok_fail():
+        st = json.load(open(state_path, encoding="utf-8")) if os.path.exists(state_path) \
+            else {"ok": [], "fail": []}
+        return set(st.get("ok", [])), set(st.get("fail", []))
+
+    def _auto_archive():
+        """宪法第一条①/②: 一批完成 → 自动备份 project/（排除 src/）。"""
+        subprocess.run(["bash", os.path.join(HERE, "archive.sh")], check=False)
+
+    initial_ok, _ = _load_ok_fail()
+    prev_ok = len([u[0] for u in units if u[0] in initial_ok])  # 本批已断点完成数
+    pending = [u[0] for u in units if u[0] not in initial_ok]
+    if not pending:
+        print(f"[batch] 断点显示本批 {len(units)} 单元已全部完成, 跳过执行")
+    else:
+        round_no = 0
+        while True:
+            round_no += 1
+            rc = run_serial(units, a.sleep, a.maxseconds, state_path,
+                            label=f"batch:{stage}·r{round_no}")
+            if rc == 43:
+                sys.exit(43)  # 429 熔断: 不写 handoff, 等探测恢复后续跑（宪法第六条）
+            ok_set, fail_set = _load_ok_fail()
+            ok_ids = [u[0] for u in units if u[0] in ok_set]
+            remaining = [u[0] for u in units if u[0] not in ok_set]
+            if len(ok_ids) == prev_ok:
+                print(f"[batch] 自动接力止损: 本段无新完成项（累计失败 {len(fail_set)} 项, "
+                      f"state 已记录, 原样重跑可重试）—— 停止接力（宪法第一条②）")
+                break
+            if remaining:
+                print(f"[batch] 第 {round_no} 段完成（新增 {len(ok_ids) - prev_ok} 项）→ "
+                      f"自动备份 project/ 后继续下一批（剩余 {len(remaining)} 项, 第一条②）")
+                _auto_archive()
+            prev_ok = len(ok_ids)
+            if not remaining:
+                print(f"[batch] 本批 {len(units)} 单元全部完成（自动接力 {round_no} 段）→ 自动备份")
+                _auto_archive()
+                break
+            if a.max_rounds and round_no >= a.max_rounds:
+                print(f"[batch] 达 --max-rounds={a.max_rounds}, 停止接力; "
+                      f"剩余 {len(remaining)} 项（state 断点, 原样重跑自动续）")
+                break
 
     # state 复核: 只有成功项才核销 plan（宪法第二条"完成才核销"）;
     # 有失败项时如实交接, 不得谎报"整页完成"（第九条诚实交付）
@@ -360,11 +408,10 @@ def main():
                          "send": f"整页完成 {len(done_pages)} 页（redraw_todo 全空）",
                          "state": "dest/ 最终件就绪（<page>.html + img/）",
                          "next": "按第九条自检 + archive.sh 归档交付"})
-    import subprocess as _sp
-    _sp.run([sys.executable, os.path.join(HERE, "handoff.py"), "send",
-             "--project", proj, "--from", "operator", "--to", info["to"],
-             "--send", info["send"], "--state", info.get("state", ""),
-             "--next", info.get("next", "")], check=False)
+    subprocess.run([sys.executable, os.path.join(HERE, "handoff.py"), "send",
+                    "--project", proj, "--from", "operator", "--to", info["to"],
+                    "--send", info["send"], "--state", info.get("state", ""),
+                    "--next", info.get("next", "")], check=False)
     print(f"[batch] 完成; 交接已记入 {hp}")
 
 

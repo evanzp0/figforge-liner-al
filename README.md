@@ -91,8 +91,11 @@ python3 scripts/handoff.py show --project mybook
 python3 scripts/plan.py show --file project/mybook/plan.md
 scripts/archive.sh project/mybook/dest --final
 
+# 自动备份（宪法第一条①）: 只备 project/ 内容, 排除各项目 src/ 原图
+scripts/archive.sh
+
 # 重置工作区: 清空 project/（一切内容下次由 scripts/roles 重新生成; 第十一条⑤）
-# 建议先备份需要保留的产物: scripts/archive.sh project/<名>/dest
+# 建议先自动备份需要保留的产物: scripts/archive.sh
 bash scripts/forge.sh clean
 
 # 收尾沉淀经验（宪法第十二条）: 本棒遇错且已解决时；排障/接活先扫 INDEX.md 再 notes.py show
@@ -101,10 +104,13 @@ python3 scripts/notes.py add --role operator \
 
 # 4) 完成协议（宪法第十一条）: 写好 handoff 后, 清 .work 并打包交付快照
 bash scripts/complete.sh --project mybook
+# 交付快照需排除 project/ 时（不含项目工作区）:
+bash scripts/complete.sh --project mybook --no-project
 ```
 
 `batch.py` 常用参数：`--stage`（见各 pack）、`--pages 0101,0107`（子集）、
-`--maxseconds 1800`（单次前台时长, 接力续跑）、`--sleep 3`（页间隔）、
+`--maxseconds 1800`（单段时长上限, 段末自动备份并接力下一批 —— 第一条②, 无需人工接力）、
+`--sleep 3`（页间隔）、`--max-rounds`（接力段数上限, 0=不限）、
 `--dry-print`（只打印将执行的命令, 不执行）。
 
 ## 宪法要点（全文见 constitution.md）

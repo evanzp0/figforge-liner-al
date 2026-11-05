@@ -26,10 +26,17 @@
 
 ## 第一条 · 归档铁律
 
-1. 每完成约 10 份（或一阶段）立即执行 `scripts/archive.sh <产物目录>`，
-   归档到 `/home/z/my-project/backup/`。
-2. 最终交付物执行 `scripts/archive.sh <目录> --final`，同步到 `/home/z/my-project/final/`。
-3. spec JSON、对比图等中间产物与最终件同等归档——它们是复现的唯一起点。
+1. **自动备份范围**：每次自动备份只针对 `project/` 目录里的内容
+   （dest 最终件、plan/handoff/run-state、全局经验库 notes/ 等），
+   **不包括具体项目下的 `src/` 目录**（原图不入备份，可从源重取）；
+   执行 `bash scripts/archive.sh`（无参数）即按此范围归档到
+   `/home/z/my-project/backup/`（包名 `project-<时间戳>.tar.gz`）。
+2. **批后自动备份 + 自动接力**：每处理完一批原图（batch 一段，
+   `--maxseconds` 优雅停）自动执行一次 `scripts/archive.sh` 备份，
+   随后**自动继续处理下一批，无需人工接力**，直到全部单元完成、
+   429 熔断（第六条）或连续无进展止损（失败项重试一轮仍无新完成即停）。
+3. 最终交付物执行 `scripts/archive.sh <目录> --final`，同步到 `/home/z/my-project/final/`。
+4. spec JSON、对比图等中间产物与最终件同等归档——它们是复现的唯一起点。
 
 ## 第二条 · 计划与恢复
 
@@ -43,7 +50,8 @@
 
 1. 禁止多线程/多协程/多 worker 并发调用 API；只允许单个进程在前台串行处理。
 2. 批量统一走 `scripts/batch.py --project <项目名>`：内部实现串行 + 页间隔
-   （`--sleep`）+ `--maxseconds` 优雅停止（做完当前页即停）+ 多次前台调用接力。
+   （`--sleep`）+ `--maxseconds` 优雅停止（做完当前页即停）+ **自动接力**
+   （每段结束自动备份 project/ 并续跑下一批，第一条②；禁止并发替代接力）。
 3. pack 脚本一律"一次调用只处理一页"（或一个 spec），批量语义只在 batch/runner 层。
 
 ## 第四条 · 后台任务必须 setsid
@@ -141,8 +149,9 @@
    ③ 删除 `.work/`（角色可自行删；complete 会自动再清一遍，幂等）；
    ④ 调用 `bash scripts/complete.sh [--project <名>]`：校验 handoff 已写 →
    删除 `.work/` → 把整个 `figforge/` 打包为 `.tar.gz` 交付快照（默认落
-   `/home/z/my-project/download/`，`--out` 可改）。未写 handoff 时 complete
-   拒绝打包（`--force` 仅限调试）。
+   `/home/z/my-project/download/`，`--out` 可改；`--no-project` 可排除
+   `project/` ——交付快照不含项目工作区，产物另行按第一条归档）。
+   未写 handoff 时 complete 拒绝打包（`--force` 仅限调试）。
 4. **先自检后打包**：第九条自检全部通过才允许调用 complete；打包即交付快照，
    打包后仓库再有改动须重新 complete 生成新快照。
 5. **`project/` 空基线**：仓库基线 `project/` 为空目录——其中任何文件/目录

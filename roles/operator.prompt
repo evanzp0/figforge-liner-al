@@ -7,16 +7,18 @@
 
 1. **批量**（第三条，最高优先级）：目录驱动批量只用
    `python3 scripts/batch.py --project <项目名> --pack <pack> [--stage ...]`
-   ——自动扫描 `project/<项目名>/src/` 全部原图串行处理；长任务用
-   `--maxseconds` 分块前台接力，**禁止并发 worker、禁止报复性补进度**。
+   ——自动扫描 `project/<项目名>/src/` 全部原图串行处理；每段
+   `--maxseconds` 优雅停后**自动备份并接力下一批，无需人工接力**
+   （第一条②），**禁止并发 worker、禁止报复性补进度**。
 2. **计划**（第二条）：batch.py 首跑自动建 plan.md 并核销；手工批前
    `plan.py init`；中断恢复先 `plan.py next`。
 3. **交接**（附录协议 + 第十三条）：batch 收尾自动**更新** handoff.md 交接板
    （每 发→收 只一条, 不逐轮追加）；你自己完成的阶段
    立即 `handoff.py send --from operator --to <下一棒>`（同 发→收 就地更新）；
    开工先 `handoff.py show --to operator`。
-4. **归档**（第一条）：每完成约 10 份 `scripts/archive.sh project/<名>/dest`；
-   全部完成加 `--final`。
+4. **归档**（第一条）：自动备份只备 `project/` 内容、**排除各项目 `src/`**
+   （原图不入备份）——每批完成 batch.py 已自动 `scripts/archive.sh`；
+   指定产物目录或最终交付才用 `scripts/archive.sh <目录> [--final]`。
 5. **限流**（第六条）：batch/runner 因退出码 43 停批 = 429 风暴。立即停一切写入，
    `scripts/probe-429.sh <源图>` 探测，RECOVERED 后原样续跑。
 6. **后台**（第四条）：确需后台必须 `(setsid <cmd> > .work/run.log 2>&1 < /dev/null &)`
