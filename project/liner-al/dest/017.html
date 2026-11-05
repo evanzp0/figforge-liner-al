@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Page 017</title>
+<style>
+  body { background: #e8e4dc; margin: 0; padding: 24px; display: flex; justify-content: center; }
+  .page {
+    background: #fff; width: 820px; max-width: 96vw; padding: 56px 64px 72px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.18); border-radius: 2px;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 17px; line-height: 1.65; color: #1a1a1a;
+  }
+  .runhead { text-align: center; font-size: 13px; color: #666; letter-spacing: .12em; margin-bottom: 28px; }
+  h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
+  h2 { font-size: 19px; margin: 26px 0 8px; text-align: right; }
+  h3 { font-size: 17px; margin: 20px 0 6px; }
+  p { margin: 0 0 10px; text-align: justify; }
+  p.indent { text-indent: 2em; }
+  .imath { font-style: italic; }
+  /* ---- 纯 CSS 数学排版（math_render 产物; 技能 output-templates 同款） ---- */
+  .mth i { font-style: italic; }
+  .mth b { font-weight: 700; }
+  sup, sub { font-size: .72em; line-height: 0; }
+  .mth .mat { display: inline-flex; align-items: stretch; vertical-align: middle; margin: 0 3px; }
+  .mth .mat .bk { width: 6px; border: 1.6px solid #1a1a1a; }
+  .mth .mat .bk.l { border-right: 0; }
+  .mth .mat .bk.r { border-left: 0; }
+  .mth .mat .bk.pl { border-right: 0; border-radius: 12px 0 0 12px; }
+  .mth .mat .bk.pr { border-left: 0; border-radius: 0 12px 12px 0; }
+  .mth .mat .bk.cl { border-right: 0; border-radius: 8px; }
+  .mth .mat .bk.cr { border-left: 0; border-radius: 8px; }
+  .mth .mat .bar { width: 1.6px; border-left: 1.6px solid #1a1a1a; }
+  .mth .mat .bd { display: inline-grid; align-items: center; justify-items: center; padding: 4px 10px; }
+  .mth .mat .mc { padding: 2px 10px; line-height: 1.3; }
+  .mth .mat .mc.empty { padding: 0; }
+  .mth .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; margin: 0 2px; }
+  .mth .frac .num { border-bottom: 1.1px solid #1a1a1a; padding: 0 5px 1px; }
+  .mth .frac .den { padding: 1px 5px 0; }
+  .mth .boxed { display: inline-block; border: 1.4px solid #1a1a1a; border-radius: 4px; padding: 3px 8px; margin: 0 2px; }
+  .mth .rad { border-top: 1.1px solid #1a1a1a; padding: 0 2px; }
+  .eq { text-align: center; margin: 14px 0; font-size: 18px; }
+  .eq .mat .mc { font-size: 17px; }
+  ul { margin: 6px 0 10px 1.6em; padding: 0; }
+  li { margin: 3px 0; text-align: left; }
+  figure.fig { margin: 18px auto; text-align: center; max-width: 100%; }
+  figure.fig img { max-width: 100%; height: auto; }
+  figure.fig svg { max-width: 100%; height: auto; }
+  /* 图注: 原版式 = 正文字号/深色/非斜体, 随图左对齐, 图号前缀加粗 */
+  figcaption { font-size: 17px; color: #1a1a1a; margin-top: 8px; line-height: 1.55; text-align: left; }
+  /* 原版式·并排图行: 相邻插图槽成组, 各图 flex-grow = 裁剪实际像素宽;
+     图元拉伸到行高, 图注贴底 → 图注带在较高一图下缘对齐（同纸面） */
+  .figrow { display: flex; gap: 18px; margin: 18px 0; }
+  .figrow figure.fig { margin: 0; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+  /* 原版式·图文混排: 左图右文, 图列宽 = 裁剪像素宽/源图正文栏宽 */
+  figure.figaside { margin: 18px 0; }
+  .figaside .aside-row { display: flex; gap: 4%; align-items: flex-start; }
+  .figaside .figimg img, .figaside .figimg svg { width: 100%; height: auto; }
+  .figaside .asidetext { flex: 1 1 auto; min-width: 0; padding-top: 14px; }
+  .figaside .asidetext p { margin: 0; }
+  .figaside figcaption { margin-top: 12px; text-indent: 3em; }
+  .pageno { text-align: center; margin-top: 34px; font-size: 14px; color: #777; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="runhead">Page 017</div>
+<p>The output from <span class="mth"><i>A</i><i>v</i></span> is a vector not a number : Matrix <span class="mth"><i>A</i></span> times vector <span class="mth"><i>v</i></span> equals vector <span class="mth"><i>A</i><i>v</i></span>. The matrix <span class="mth"><i>A</i></span> is a rectangle of numbers : <em>m rows and n columns</em>. A 2 by 3 matrix multiplies a vector <span class="mth"><i>v</i></span> with <span class="mth"><i>n</i> = 3</span> components.</p>
+<p><strong>Matrix times vector</strong>  <span class="mth"><i>A</i><i>v</i> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(3,auto)"><span class="mc"> 4 </span><span class="mc"> 5 </span><span class="mc"> 2 </span><span class="mc"> 1 </span><span class="mc"> 2 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 1 </span><span class="mc"> 7 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 4 · 3 + 5 · 1 + 2 · 7 </span><span class="mc"> 1 · 3 + 2 · 1 + 1 · 7 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 31 </span><span class="mc"> 12 </span></span><span class="bk r"></span></span></span>  (4)</p>
+<p>Please notice : <span class="mth"><i>A</i></span> has 2 rows. <strong>A times v involved 2 dot products</strong>. The first component in <span class="mth"><i>A</i><i>v</i></span> used row 1 of <span class="mth"><i>A</i></span>. The result was 31. The second component of <span class="mth"><i>A</i><i>v</i></span> used row 2 of <span class="mth"><i>A</i></span> :</p>
+<div class="eq" role="math" aria-label="( row 2 of A) ( column vector v) = 1 3 + 2 1 + 1 7 = 12"><span class="mth">(row 2 of  <i>A</i>) · (column vector  <i>v</i>) = 1 · 3 + 2 · 1 + 1 · 7 = 12</span></div>
+<p>This is the usual way to multiply <span class="mth"><i>A</i></span> times <span class="mth"><i>v</i></span> : dot products of the rows of <span class="mth"><i>A</i></span> with <span class="mth"><i>v</i></span>. But Section 1.3 will explain a better way to understand <span class="mth"><i>A</i><i>v</i></span>. Computing row <span class="mth">·</span> column is fine, but understanding <span class="mth"><i>A</i><i>v</i></span> becomes clearer with <em>linear combinations of column vectors</em>.</p>
+<p>Let me show one "linear combination" because this is the fundamental operation on vectors. <em>Multiply vectors by numbers like 2 and 4 and add the results</em> :</p>
+<p><strong>Linear combination</strong> <span class="mth"><i>c</i><i>v</i> + <i>d</i><i>w</i> = 2<i>v</i> + 4<i>w</i></span></p>
+<div class="eq" role="math" aria-label="2 | 3 | 1 | 7 | + 4 | 1 | 2 | 1 | = | 6 | 2 | 14 | + | 4 | 8 | 4 | = | 10 | 10 | 18 | (5)"><span class="mth"><span class="boxed">2 <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 1 </span><span class="mc"> 7 </span></span><span class="bk r"></span></span> + 4 <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 1 </span><span class="mc"> 2 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 6 </span><span class="mc"> 2 </span><span class="mc"> 14 </span></span><span class="bk r"></span></span> + <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 4 </span><span class="mc"> 8 </span><span class="mc"> 4 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 10 </span><span class="mc"> 10 </span><span class="mc"> 18 </span></span><span class="bk r"></span></span></span> &emsp;&emsp; (5)</span></div>
+<p>Those combinations go into the big step : <strong>Multiply a matrix by a matrix</strong>. I would like to save that step for Section 1.4. We have explained three ways to multiply, involving numbers and vectors and matrices :</p>
+<p>1. Number times vector <span class="mth">(<i>c</i><i>v</i>)</span>  2. Vector <span class="mth">·</span> vector <span class="mth">(<i>v</i> · <i>w</i>)</span>  3. Matrix times vector <span class="mth">(<i>A</i><i>v</i>)</span></p>
+<p>Those are in Sections 1.1 and 1.2 and 1.3. Then <span class="mth"><i>AB</i></span> is matrix multiplication in Section 1.4.</p>
+<p>Let me also say : <span class="mth"><i>A</i></span> times <span class="mth"><i>v</i></span> can use the rows of a matrix <span class="mth"><i>A</i></span> or the columns of <span class="mth"><i>A</i></span>. There are <span class="mth"><i>m</i></span> row vectors in <span class="mth"><i>A</i></span> and there are <span class="mth"><i>n</i></span> column vectors. Both ways use the same <span class="mth"><i>mn</i></span> numbers. A major key to linear algebra comes from the connections between two ideas.</p>
+<p><strong>Dot products with rows of <span class="mth"><i>A</i></span></strong>  <strong>Combinations of columns of <span class="mth"><i>A</i></span></strong></p>
+<div class="eq" role="math" aria-label="| 3 , 4 | 5 , 6 | | x | y | = | 3x + 4y | 5x + 6y | | 3 , 4 | 5 , 6 | | x | y | = x | 3 | 5 | + y | 4 | 6 |"><span class="mth"><span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(2,auto)"><span class="mc"> 3 </span><span class="mc"> 4 </span><span class="mc"> 5 </span><span class="mc"> 6 </span></span><span class="bk r"></span></span> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> <i>x</i> </span><span class="mc"> <i>y</i> </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3<i>x</i> + 4<i>y</i> </span><span class="mc"> 5<i>x</i> + 6<i>y</i> </span></span><span class="bk r"></span></span> &emsp; <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(2,auto)"><span class="mc"> 3 </span><span class="mc"> 4 </span><span class="mc"> 5 </span><span class="mc"> 6 </span></span><span class="bk r"></span></span> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> <i>x</i> </span><span class="mc"> <i>y</i> </span></span><span class="bk r"></span></span> = <i>x</i> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 5 </span></span><span class="bk r"></span></span> + <i>y</i> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 4 </span><span class="mc"> 6 </span></span><span class="bk r"></span></span></span></div>
+  <div class="pageno">017</div>
+</div>
+</body>
+</html>

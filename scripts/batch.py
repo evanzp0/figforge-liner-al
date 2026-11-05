@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 """figforge :: batch.py —— 目录驱动批量入口（宪法第二/三/六条 + 交接协议）
 
-指定项目即可批量处理 src/ 下全部原图，而不是逐张指定:
-  python3 scripts/batch.py --project mybook --pack split-text-image
-  python3 scripts/batch.py --project mybook --pack px2svg
-  python3 scripts/batch.py --project mybook --pack html-svg
+指定项目即可驱动流水线（项目名必须是 project/ 下已存在的项目，
+禁止自建与仓库无关的项目）:
+  python3 scripts/batch.py --project liner-al --pack split-text-image
+  python3 scripts/batch.py --project liner-al --pack px2svg
+  python3 scripts/batch.py --project liner-al --pack html-svg
 
 产物契约（dest 只放最终件; 中间件一律进 .work/<名>/ —— 宪法第十一条）:
   project/<项目名>/src/                          原图（页 id = 文件名去扩展名）
@@ -25,7 +26,11 @@
   project/<项目名>/run-state-<stage>.json        执行级断点（自动维护）
 
 阶段（--stage, 括号为默认值）:
-  split-text-image: (detect) 批量插图检测裁剪 | html 对已转录页批量排版（dest/<page>.html）
+  split-text-image: (detect) 页级锁步插图检测 —— 每次只检测"第一个未完成页"，
+                    detect 一页 → 转录排版一页，detect 永不跑在转录排版前面
+                    （完成 = dest/<page>.html 已产出，全链闭合）；显式 --pages
+                    为手工兜底（重检测/补检测指定页），不受锁步限制
+                    | html 对已转录页批量排版（dest/<page>.html）
   px2svg:           (redraw) 批量渲染 specs/ 全部 spec → 四件套并发布主档到 dest/img/
   html-svg:         (compose) 逐页编排: 内嵌已发布 SVG 重排 dest/<page>.html + manifest
 
@@ -143,19 +148,55 @@ def build_units(a, proj, py):
     if pack == "split-text-image" and stage == "detect":
         if not pages:
             raise SystemExit("batch: src/ 下没有原图（支持 " + " ".join(PAGE_EXTS) + "）")
-        units = [(pid, unit_cmd(py, os.path.join(p1, "detect_figures.py"),
-                                "--page", pid, "--image", img,
-                                "--out", work1(pid)))
-                 for pid, img in pages]
+        img_of = dict(pages)
+
+        # 手工兜底: 显式 --pages 重检测/补检测指定页（操作员明确指定, 不受锁步限制）
+        if a.pages:
+            units = [(pid, unit_cmd(py, os.path.join(p1, "detect_figures.py"),
+                                    "--page", pid, "--image", img,
+                                    "--out", work1(pid)))
+                     for pid, img in pages]
+            return units, {"to": "transcriber",
+                           "send": f"手工指定 {len(units)} 页插图检测裁剪完成: "
+                                   f"{','.join(pid for pid, _ in units)}",
+                           "state": ".work/<名>/pack1/<page>/{figures.json, crops/} 就绪",
+                           "next": "按 plan 逐页转录（宪法第零条分块核对），完成写 text.md 后 send 回执"}
+
+        # 页级锁步（用户规则: detect 一页 → 转录排版一页）:
+        # 只允许检测"第一个未完成页"（完成 = dest/<page>.html 已产出, 全链闭合）,
+        # detect 永不跑在转录排版前面; 该页排版完成后再次运行自动推进到下一页。
+        todo = [pid for pid, _ in pages
+                if not os.path.exists(os.path.join(dest, f"{pid}.html"))]
+        if not todo:
+            return [], {"to": "operator",
+                        "send": f"锁步: 全部 {len(pages)} 页均已排版完成, detect 无待办",
+                        "state": "dest/ 最终件齐备（<page>.html + img/）",
+                        "next": "按第九条自检 + complete.sh 交付"}
+        lead = todo[0]
+        if os.path.exists(os.path.join(work1(lead), "figures.json")):
+            # 已检测未转录排版 → detect 停在原地等转录, 禁止越过该页往前跑
+            return [], {"to": "transcriber",
+                        "send": f"锁步等待: {lead} 已检测待转录排版（detect 不超前）",
+                        "state": f".work/<名>/pack1/{lead}/figures.json 就绪",
+                        "next": f"转录 {lead} 写 text.md → batch --stage html 排版; "
+                                "完成后重跑本命令自动推进下一页"}
+        units = [(lead, unit_cmd(py, os.path.join(p1, "detect_figures.py"),
+                                 "--page", lead, "--image", img_of[lead],
+                                 "--out", work1(lead)))]
         return units, {"to": "transcriber",
-                       "send": f"src 全部 {len(units)} 页插图检测裁剪完成",
+                       "send": f"锁步单页检测: {lead}（detect 一页 → 转录排版一页, 不超前）",
                        "state": ".work/<名>/pack1/<page>/{figures.json, crops/} 就绪",
-                       "next": "按 plan 逐页转录（宪法第零条分块核对），完成写 text.md 后 send 回执"}
+                       "next": f"转录 {lead}（宪法第零条分块核对）写 text.md, "
+                               "再 batch --stage html 排版; 排版完成后重跑本命令推进下一页"}
 
     if pack == "split-text-image" and stage == "html":
         units, missing = [], []
         svg_dir = os.path.join(dest, "img")
         for pid, _ in pages:
+            # 已排版交付的页（dest/<page>.html 在）不算缺失——text.md 中间件
+            # 可能已被 complete 清理, 不能据此误报"未转录"
+            if os.path.exists(os.path.join(dest, f"{pid}.html")):
+                continue
             tdir = work1(pid)
             if not os.path.exists(os.path.join(tdir, "text.md")):
                 missing.append(pid)
@@ -322,8 +363,8 @@ def main():
     print(f"[batch] 项目 {proj}")
     print(f"[batch] {a.pack}/{stage}: {len(units)} 个单元（断点 {state_path}）")
 
-    # plan 自动建立（宪法第二条）
-    if not a.dry_print:
+    # plan 自动建立（宪法第二条）; 锁步等待（units 空）时跳过, 避免空 ids 建板
+    if not a.dry_print and units:
         ensure_plan(proj, f"{os.path.basename(proj)} · {a.pack}/{stage}", [u[0] for u in units])
 
     if a.dry_print:

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Page 008</title>
+<style>
+  body { background: #e8e4dc; margin: 0; padding: 24px; display: flex; justify-content: center; }
+  .page {
+    background: #fff; width: 820px; max-width: 96vw; padding: 56px 64px 72px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.18); border-radius: 2px;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 17px; line-height: 1.65; color: #1a1a1a;
+  }
+  .runhead { text-align: center; font-size: 13px; color: #666; letter-spacing: .12em; margin-bottom: 28px; }
+  h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
+  h2 { font-size: 19px; margin: 26px 0 8px; text-align: right; }
+  h3 { font-size: 17px; margin: 20px 0 6px; }
+  p { margin: 0 0 10px; text-align: justify; }
+  p.indent { text-indent: 2em; }
+  .imath { font-style: italic; }
+  /* ---- 纯 CSS 数学排版（math_render 产物; 技能 output-templates 同款） ---- */
+  .mth i { font-style: italic; }
+  .mth b { font-weight: 700; }
+  sup, sub { font-size: .72em; line-height: 0; }
+  .mth .mat { display: inline-flex; align-items: stretch; vertical-align: middle; margin: 0 3px; }
+  .mth .mat .bk { width: 6px; border: 1.6px solid #1a1a1a; }
+  .mth .mat .bk.l { border-right: 0; }
+  .mth .mat .bk.r { border-left: 0; }
+  .mth .mat .bk.pl { border-right: 0; border-radius: 12px 0 0 12px; }
+  .mth .mat .bk.pr { border-left: 0; border-radius: 0 12px 12px 0; }
+  .mth .mat .bk.cl { border-right: 0; border-radius: 8px; }
+  .mth .mat .bk.cr { border-left: 0; border-radius: 8px; }
+  .mth .mat .bar { width: 1.6px; border-left: 1.6px solid #1a1a1a; }
+  .mth .mat .bd { display: inline-grid; align-items: center; justify-items: center; padding: 4px 10px; }
+  .mth .mat .mc { padding: 2px 10px; line-height: 1.3; }
+  .mth .mat .mc.empty { padding: 0; }
+  .mth .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; margin: 0 2px; }
+  .mth .frac .num { border-bottom: 1.1px solid #1a1a1a; padding: 0 5px 1px; }
+  .mth .frac .den { padding: 1px 5px 0; }
+  .mth .boxed { display: inline-block; border: 1.4px solid #1a1a1a; border-radius: 4px; padding: 3px 8px; margin: 0 2px; }
+  .mth .rad { border-top: 1.1px solid #1a1a1a; padding: 0 2px; }
+  .eq { text-align: center; margin: 14px 0; font-size: 18px; }
+  .eq .mat .mc { font-size: 17px; }
+  ul { margin: 6px 0 10px 1.6em; padding: 0; }
+  li { margin: 3px 0; text-align: left; }
+  figure.fig { margin: 18px auto; text-align: center; max-width: 100%; }
+  figure.fig img { max-width: 100%; height: auto; }
+  figure.fig svg { max-width: 100%; height: auto; }
+  /* 图注: 原版式 = 正文字号/深色/非斜体, 随图左对齐, 图号前缀加粗 */
+  figcaption { font-size: 17px; color: #1a1a1a; margin-top: 8px; line-height: 1.55; text-align: left; }
+  /* 原版式·并排图行: 相邻插图槽成组, 各图 flex-grow = 裁剪实际像素宽;
+     图元拉伸到行高, 图注贴底 → 图注带在较高一图下缘对齐（同纸面） */
+  .figrow { display: flex; gap: 18px; margin: 18px 0; }
+  .figrow figure.fig { margin: 0; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+  /* 原版式·图文混排: 左图右文, 图列宽 = 裁剪像素宽/源图正文栏宽 */
+  figure.figaside { margin: 18px 0; }
+  .figaside .aside-row { display: flex; gap: 4%; align-items: flex-start; }
+  .figaside .figimg img, .figaside .figimg svg { width: 100%; height: auto; }
+  .figaside .asidetext { flex: 1 1 auto; min-width: 0; padding-top: 14px; }
+  .figaside .asidetext p { margin: 0; }
+  .figaside figcaption { margin-top: 12px; text-indent: 3em; }
+  .pageno { text-align: center; margin-top: 34px; font-size: 14px; color: #777; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="runhead">Page 008</div>
+<p>That picture reveals the most important fact about those three vectors <span class="mth"><i>a</i><sub>1</sub>, <i>a</i><sub>2</sub>, <i>a</i><sub>3</sub></span>. But we need the right language to describe it. Our goal is to see the idea, and to get better and better at expressing it. Here are three steps in a good direction.</p>
+<ul><li><strong>1 Idea in words</strong> Column 3 is the sum of column 1 and column 2</li>
+<li><strong>2 Idea in symbols</strong> <span class="mth"><i>a</i><sub>3</sub> = <i>a</i><sub>1</sub> + <i>a</i><sub>2</sub></span></li>
+<li><strong>3 Matrix times vector</strong> <span class="mth"><span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"><i>a</i><sub>3</sub></span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(2,auto)"><span class="mc"><i>a</i><sub>1</sub> </span><span class="mc"> <i>a</i><sub>2</sub></span></span><span class="bk r"></span></span> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc">1 </span><span class="mc"> 1</span></span><span class="bk r"></span></span></span></li>
+</ul><p>Step 3 shows how a matrix <span class="mth"><i>C</i></span> multiplies a vector <span class="mth"><i>x</i></span>. The columns <span class="mth"><i>a</i><sub>1</sub></span> and <span class="mth"><i>a</i><sub>2</sub></span> in <span class="mth"><i>C</i></span> multiply the numbers <span class="mth"><i>x</i><sub>1</sub> = 1</span> and <span class="mth"><i>x</i><sub>2</sub> = 1</span> in <span class="mth"><i>x</i></span>. <em>The output <span class="mth"><i>C</i><i>x</i></span> is a combination of the columns</em>. Here that column combination is <span class="mth"><i>a</i><sub>1</sub> + <i>a</i><sub>2</sub></span>.</p>
+<p>One more crucial step allows several combinations at once. This is the way forward. We cannot take this step with pictures or words. <strong>A matrix multiplies a matrix</strong>.</p>
+<ul><li><strong>4 Matrix times matrix</strong> <span class="mth"><i>A</i> = <i>CR</i></span> is <span class="mth"><span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(3,auto)"><span class="mc"><i>a</i><sub>1</sub> </span><span class="mc"> <i>a</i><sub>2</sub> </span><span class="mc"> <i>a</i><sub>3</sub></span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(2,auto)"><span class="mc"><i>a</i><sub>1</sub> </span><span class="mc"> <i>a</i><sub>2</sub></span></span><span class="bk r"></span></span> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(3,auto)"><span class="mc">1 </span><span class="mc"> 0 </span><span class="mc"> 1 </span><span class="mc"> 0 </span><span class="mc"> 1 </span><span class="mc"> 1</span></span><span class="bk r"></span></span></span></li>
+</ul><p>Those three columns of <span class="mth"><i>R</i></span> give three combinations in <span class="mth"><i>A</i></span> of the two columns in <span class="mth"><i>C</i></span></p>
+<p><strong>Column 1 :</strong> <span class="mth">1<i>a</i><sub>1</sub> + 0<i>a</i><sub>2</sub> = <i>a</i><sub>1</sub></span>  <strong>Column 2 :</strong> <span class="mth">0<i>a</i><sub>1</sub> + 1<i>a</i><sub>2</sub> = <i>a</i><sub>2</sub></span></p>
+<p><strong>Column 3 :</strong> <span class="mth">1<i>a</i><sub>1</sub> + 1<i>a</i><sub>2</sub> = (1, 3, 4) + (2, 4, 2) = (3, 7, 6) = <i>a</i><sub>3</sub></span></p>
+<p>That matrix multiplication <span class="mth"><i>A</i> = <i>C</i><i>R</i></span> displays major information :</p>
+<ul><li><span class="mth"><i>A</i></span> has dependent columns : the combination of columns <span class="mth">1 + 2 − 3</span> gives <span class="mth">(0, 0, 0)</span></li>
+<li><span class="mth"><i>A</i></span> also has dependent rows : some combination of its rows will give <span class="mth">(0, 0, 0)</span> !</li>
+<li>The "<em>column space</em>" of this <span class="mth"><i>A</i></span> is only a plane and not the whole 3D space</li>
+<li>The "<em>row space</em>" of this <span class="mth"><i>A</i></span> is also a plane and not the whole 3D space</li>
+<li>The square matrix <span class="mth"><i>A</i></span> has no inverse. Its determinant is zero. It is unusual.</li>
+</ul><h2>Subspaces of Vector Spaces</h2>
+<p>In Chapters 1 to 4, the organizing ideas are <strong>vector spaces</strong>. The columns of <span class="mth"><i>A</i></span> are in <span class="mth"><i>m</i></span>-dimensional space <span class="mth"><b>R</b><sup><i>m</i></sup></span>. The rows are in <span class="mth"><i>n</i></span>-dimensional space <span class="mth"><b>R</b><sup><i>n</i></sup></span>. But the action is in <strong>four subspaces inside <span class="mth"><b>R</b><sup><i>m</i></sup></span> and <span class="mth"><b>R</b><sup><i>n</i></sup></span></strong>. The matrix <span class="mth"><i>A</i></span> multiplies <span class="mth"><i>x</i><sub>row</sub></span> in its <em>row space</em> and <span class="mth"><i>x</i><sub>null</sub></span> in its <em>nullspace</em>. The output is <span class="mth"><i>A</i><i>x</i><sub>row</sub> = <i>b</i></span> in its <em>column space</em> because <span class="mth"><i>A</i><i>x</i><sub>null</sub> = <i>zero</i></span>. Then the complete solution to <span class="mth"><i>A</i><i>x</i> = <i>b</i></span> has a row space part and a nullspace part :</p>
+<div class="eq" role="math" aria-label="x = x_ row \ + \ any \ x_ null A x = A x_ row + A x_ null = b + 0 = b"><span class="mth"><span class="boxed"><i>x</i> = <i>x</i><sub>row</sub> &nbsp;+ &nbsp;any  &nbsp;<i>x</i><sub>null</sub> &emsp; <i>A</i><i>x</i> = <i>A</i><i>x</i><sub>row</sub> + <i>A</i><i>x</i><sub>null</sub> = <i>b</i> + 0 = <i>b</i></span></span></div>
+<p><em>Every linear equation <span class="mth"><i>A</i><i>x</i> = <i>b</i></span> is solved this way</em> : particular <span class="mth"><i>x</i><sub>row</sub></span> + any homogeneous <span class="mth"><i>x</i><sub>null</sub></span>.</p>
+  <div class="pageno">008</div>
+</div>
+</body>
+</html>

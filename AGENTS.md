@@ -15,17 +15,21 @@
 
 | pack | 作用 | 阶段 `--stage`（默认加粗） | 产物落点（dest 只放最终件, 中间件在 `.work/<名>/`） |
 |---|---|---|---|
-| `split-text-image` | 图文分离：整页转录 → 书页 HTML（公式已渲染, 插图引用 img/） | **detect**（插图检测裁剪）/ html（排版） | `dest/<page>.html + dest/img/<page>.jpg`; 中间件 `.work/<名>/pack1/<page>/` |
+| `split-text-image` | 图文分离：整页转录 → 书页 HTML（公式已渲染, 插图引用 img/） | **detect**（页级锁步插图检测: detect 一页 → 转录排版一页, 不超前; `--pages` 手工兜底）/ html（排版） | `dest/<page>.html + dest/img/<page>.jpg`; 中间件 `.work/<名>/pack1/<page>/` |
 | `px2svg` | 像素图重绘 SVG：量测 → matplotlib 引擎 → 对比验收 | **redraw**（渲染 specs/ 全部 spec） | `dest/img/<page>.svg`（多图页 `-fig<i>`, 仅重绘流程）; 四件套在 `.work/<名>/pack2/svg/` |
 | `html-svg` | 合用：整页 HTML + 插图引用重绘 SVG | **compose**（逐页编排） | `dest/<page>.html`（插图引用 img/）+ manifest 入 `.work/<名>/pack3/` |
 
-批量命令（按需三选一，`<名>` 为项目名）：
+批量命令（按需三选一，`<名>` 为 project/ 下已存在的项目名; 禁止自建无关项目）：
 
 ```bash
 python3 scripts/batch.py --project <名> --pack split-text-image [--stage html]
 python3 scripts/batch.py --project <名> --pack px2svg      [--pages 0107,0138]
 python3 scripts/batch.py --project <名> --pack html-svg
 ```
+
+> 页级锁步（用户规则）: `split-text-image` 默认 detect 阶段每次只检测"第一个未完成页"
+> （完成 = dest/<page>.html 已产出）—— detect 一页 → 转录排版一页 → 再推进下一页;
+> 显式 `--pages` 指定页时为手工兜底, 不受锁步限制。
 
 ### 角色（roles/*.prompt，交接只认 `project/<名>/handoff.md`）
 

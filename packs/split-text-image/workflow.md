@@ -92,11 +92,15 @@ python3 packs/split-text-image/scripts/build_html.py \
 - [ ] 无流水账/日志残留（第十三条：任何文件不随轮次增长）
 - [ ] 完成协议（第十一条）：`.work/` 已清理，`scripts/complete.sh` 已打包交付快照
 
-## 批量（目录驱动）
+## 批量（页级锁步: detect 一页 → 转录排版一页）
 
 ```bash
-# 插图检测裁剪: 自动扫描 project/<名>/src/ 全部原图, 串行逐页处理（中间件入 .work/<名>/pack1/）
+# 插图检测裁剪（默认阶段, 页级锁步）: 每次只检测"第一个未完成页"（完成 = dest/<page>.html
+# 已产出, 全链闭合）—— detect 一页 → 转录排版一页 → 排版完成后重跑本命令自动推进下一页;
+# detect 永不跑在转录排版前面（用户规则; 中间件入 .work/<名>/pack1/）
 python3 scripts/batch.py --project <名> --pack split-text-image
+# 手工兜底: 显式指定页绕过锁步（重检测/补检测指定页, 不耗锁步位）
+python3 scripts/batch.py --project <名> --pack split-text-image --pages 0107
 # 排版: 对已转录页（text.md 就绪）批量生成最终件 dest/<page>.html + dest/img/<page>.jpg;
 # dest/img/ 已有验收通过的重绘主档 SVG 时插图槽自动改引用（比 html 新则强制重排）
 python3 scripts/batch.py --project <名> --pack split-text-image --stage html

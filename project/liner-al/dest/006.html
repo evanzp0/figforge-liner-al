@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Page 006</title>
+<style>
+  body { background: #e8e4dc; margin: 0; padding: 24px; display: flex; justify-content: center; }
+  .page {
+    background: #fff; width: 820px; max-width: 96vw; padding: 56px 64px 72px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.18); border-radius: 2px;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 17px; line-height: 1.65; color: #1a1a1a;
+  }
+  .runhead { text-align: center; font-size: 13px; color: #666; letter-spacing: .12em; margin-bottom: 28px; }
+  h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
+  h2 { font-size: 19px; margin: 26px 0 8px; text-align: right; }
+  h3 { font-size: 17px; margin: 20px 0 6px; }
+  p { margin: 0 0 10px; text-align: justify; }
+  p.indent { text-indent: 2em; }
+  .imath { font-style: italic; }
+  /* ---- 纯 CSS 数学排版（math_render 产物; 技能 output-templates 同款） ---- */
+  .mth i { font-style: italic; }
+  .mth b { font-weight: 700; }
+  sup, sub { font-size: .72em; line-height: 0; }
+  .mth .mat { display: inline-flex; align-items: stretch; vertical-align: middle; margin: 0 3px; }
+  .mth .mat .bk { width: 6px; border: 1.6px solid #1a1a1a; }
+  .mth .mat .bk.l { border-right: 0; }
+  .mth .mat .bk.r { border-left: 0; }
+  .mth .mat .bk.pl { border-right: 0; border-radius: 12px 0 0 12px; }
+  .mth .mat .bk.pr { border-left: 0; border-radius: 0 12px 12px 0; }
+  .mth .mat .bk.cl { border-right: 0; border-radius: 8px; }
+  .mth .mat .bk.cr { border-left: 0; border-radius: 8px; }
+  .mth .mat .bar { width: 1.6px; border-left: 1.6px solid #1a1a1a; }
+  .mth .mat .bd { display: inline-grid; align-items: center; justify-items: center; padding: 4px 10px; }
+  .mth .mat .mc { padding: 2px 10px; line-height: 1.3; }
+  .mth .mat .mc.empty { padding: 0; }
+  .mth .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; margin: 0 2px; }
+  .mth .frac .num { border-bottom: 1.1px solid #1a1a1a; padding: 0 5px 1px; }
+  .mth .frac .den { padding: 1px 5px 0; }
+  .mth .boxed { display: inline-block; border: 1.4px solid #1a1a1a; border-radius: 4px; padding: 3px 8px; margin: 0 2px; }
+  .mth .rad { border-top: 1.1px solid #1a1a1a; padding: 0 2px; }
+  .eq { text-align: center; margin: 14px 0; font-size: 18px; }
+  .eq .mat .mc { font-size: 17px; }
+  ul { margin: 6px 0 10px 1.6em; padding: 0; }
+  li { margin: 3px 0; text-align: left; }
+  figure.fig { margin: 18px auto; text-align: center; max-width: 100%; }
+  figure.fig img { max-width: 100%; height: auto; }
+  figure.fig svg { max-width: 100%; height: auto; }
+  /* 图注: 原版式 = 正文字号/深色/非斜体, 随图左对齐, 图号前缀加粗 */
+  figcaption { font-size: 17px; color: #1a1a1a; margin-top: 8px; line-height: 1.55; text-align: left; }
+  /* 原版式·并排图行: 相邻插图槽成组, 各图 flex-grow = 裁剪实际像素宽;
+     图元拉伸到行高, 图注贴底 → 图注带在较高一图下缘对齐（同纸面） */
+  .figrow { display: flex; gap: 18px; margin: 18px 0; }
+  .figrow figure.fig { margin: 0; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+  /* 原版式·图文混排: 左图右文, 图列宽 = 裁剪像素宽/源图正文栏宽 */
+  figure.figaside { margin: 18px 0; }
+  .figaside .aside-row { display: flex; gap: 4%; align-items: flex-start; }
+  .figaside .figimg img, .figaside .figimg svg { width: 100%; height: auto; }
+  .figaside .asidetext { flex: 1 1 auto; min-width: 0; padding-top: 14px; }
+  .figaside .asidetext p { margin: 0; }
+  .figaside figcaption { margin-top: 12px; text-indent: 3em; }
+  .pageno { text-align: center; margin-top: 34px; font-size: 14px; color: #777; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="runhead">Page 006</div>
+<h2>7 The Singular Value Decomposition (SVD) — 258</h2>
+<ul><li>7.1 Singular Values and Singular Vectors — 259</li>
+<li>7.2 Compressing Images by the SVD — 269</li>
+<li>7.3 Principal Component Analysis — 274</li>
+<li>7.4 The Victory of Orthogonality (and a Revolution) — 280</li>
+</ul><h2>8 Learning from Data — 286</h2>
+<ul><li>8.1 Piecewise Linear Learning Functions — 289</li>
+<li>8.2 Convolutional Neural Nets — 299</li>
+<li>8.3 Minimizing Loss by Gradient Descent — 306</li>
+<li>8.4 Mean, Variance, and Covariance — 321</li>
+</ul><h2>Appendices</h2>
+<ul><li>Appendix 1 The Ranks of <span class="mth"><i>AB</i></span> and <span class="mth"><i>A</i> + <i>B</i></span> — 334</li>
+<li>Appendix 2 Eigenvalues and Singular Values : Rank One — 335</li>
+<li>Appendix 3 Counting Parameters in the Basic Factorizations — 336</li>
+<li>Appendix 4 Codes and Algorithms for Numerical Linear Algebra — 337</li>
+<li>Appendix 5 Matrix Factorizations — 338</li>
+<li>Appendix 6 The Column-Row Factorization of a Matrix — 340</li>
+<li>Appendix 7 The Jordan Form of a Square Matrix — 343</li>
+<li>Appendix 8 Tensors — 344</li>
+<li>Appendix 9 The Condition Number — 345</li>
+<li>Appendix 10 Markov Matrices and Perron-Frobenius — 346</li>
+<li>Index — 348</li>
+<li>Index of Symbols — 354</li>
+<li>Six Great Theorems / Linear Algebra in a Nutshell — 356</li></ul>
+  <div class="pageno">006</div>
+</div>
+</body>
+</html>

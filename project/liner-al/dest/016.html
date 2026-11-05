@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>Page 016</title>
+<style>
+  body { background: #e8e4dc; margin: 0; padding: 24px; display: flex; justify-content: center; }
+  .page {
+    background: #fff; width: 820px; max-width: 96vw; padding: 56px 64px 72px;
+    box-shadow: 0 2px 14px rgba(0,0,0,.18); border-radius: 2px;
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    font-size: 17px; line-height: 1.65; color: #1a1a1a;
+  }
+  .runhead { text-align: center; font-size: 13px; color: #666; letter-spacing: .12em; margin-bottom: 28px; }
+  h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
+  h2 { font-size: 19px; margin: 26px 0 8px; text-align: right; }
+  h3 { font-size: 17px; margin: 20px 0 6px; }
+  p { margin: 0 0 10px; text-align: justify; }
+  p.indent { text-indent: 2em; }
+  .imath { font-style: italic; }
+  /* ---- 纯 CSS 数学排版（math_render 产物; 技能 output-templates 同款） ---- */
+  .mth i { font-style: italic; }
+  .mth b { font-weight: 700; }
+  sup, sub { font-size: .72em; line-height: 0; }
+  .mth .mat { display: inline-flex; align-items: stretch; vertical-align: middle; margin: 0 3px; }
+  .mth .mat .bk { width: 6px; border: 1.6px solid #1a1a1a; }
+  .mth .mat .bk.l { border-right: 0; }
+  .mth .mat .bk.r { border-left: 0; }
+  .mth .mat .bk.pl { border-right: 0; border-radius: 12px 0 0 12px; }
+  .mth .mat .bk.pr { border-left: 0; border-radius: 0 12px 12px 0; }
+  .mth .mat .bk.cl { border-right: 0; border-radius: 8px; }
+  .mth .mat .bk.cr { border-left: 0; border-radius: 8px; }
+  .mth .mat .bar { width: 1.6px; border-left: 1.6px solid #1a1a1a; }
+  .mth .mat .bd { display: inline-grid; align-items: center; justify-items: center; padding: 4px 10px; }
+  .mth .mat .mc { padding: 2px 10px; line-height: 1.3; }
+  .mth .mat .mc.empty { padding: 0; }
+  .mth .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; margin: 0 2px; }
+  .mth .frac .num { border-bottom: 1.1px solid #1a1a1a; padding: 0 5px 1px; }
+  .mth .frac .den { padding: 1px 5px 0; }
+  .mth .boxed { display: inline-block; border: 1.4px solid #1a1a1a; border-radius: 4px; padding: 3px 8px; margin: 0 2px; }
+  .mth .rad { border-top: 1.1px solid #1a1a1a; padding: 0 2px; }
+  .eq { text-align: center; margin: 14px 0; font-size: 18px; }
+  .eq .mat .mc { font-size: 17px; }
+  ul { margin: 6px 0 10px 1.6em; padding: 0; }
+  li { margin: 3px 0; text-align: left; }
+  figure.fig { margin: 18px auto; text-align: center; max-width: 100%; }
+  figure.fig img { max-width: 100%; height: auto; }
+  figure.fig svg { max-width: 100%; height: auto; }
+  /* 图注: 原版式 = 正文字号/深色/非斜体, 随图左对齐, 图号前缀加粗 */
+  figcaption { font-size: 17px; color: #1a1a1a; margin-top: 8px; line-height: 1.55; text-align: left; }
+  /* 原版式·并排图行: 相邻插图槽成组, 各图 flex-grow = 裁剪实际像素宽;
+     图元拉伸到行高, 图注贴底 → 图注带在较高一图下缘对齐（同纸面） */
+  .figrow { display: flex; gap: 18px; margin: 18px 0; }
+  .figrow figure.fig { margin: 0; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+  /* 原版式·图文混排: 左图右文, 图列宽 = 裁剪像素宽/源图正文栏宽 */
+  figure.figaside { margin: 18px 0; }
+  .figaside .aside-row { display: flex; gap: 4%; align-items: flex-start; }
+  .figaside .figimg img, .figaside .figimg svg { width: 100%; height: auto; }
+  .figaside .asidetext { flex: 1 1 auto; min-width: 0; padding-top: 14px; }
+  .figaside .asidetext p { margin: 0; }
+  .figaside figcaption { margin-top: 12px; text-indent: 3em; }
+  .pageno { text-align: center; margin-top: 34px; font-size: 14px; color: #777; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="runhead">Page 016</div>
+<h2>1.1 Linear Combinations of Vectors</h2>
+<ul><li>1 <span class="mth">3<i>v</i> + 5<i>w</i></span> is a typical <strong>linear combination</strong> <span class="mth"><i>c</i><i>v</i> + <i>d</i><i>w</i></span> of the vectors <span class="mth"><i>v</i></span> and <span class="mth"><i>w</i></span>.</li>
+<li>2 For <span class="mth"><i>v</i> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 1 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span></span> and <span class="mth"><i>w</i> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 2 </span><span class="mc"> 3 </span></span><span class="bk r"></span></span></span> that combination is <span class="mth">3 <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 1 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span> + 5 <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 2 </span><span class="mc"> 3 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 + 10 </span><span class="mc"> 3 + 15 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 13 </span><span class="mc"> 18 </span></span><span class="bk r"></span></span></span>.</li>
+<li>3 The combinations <span class="mth"><i>c</i> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 1 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span> + <i>d</i> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 2 </span><span class="mc"> 3 </span></span><span class="bk r"></span></span></span> fill the <strong>whole <span class="mth"><i>xy</i></span> plane</strong>. They produce every <span class="mth"><span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> <i>x</i> </span><span class="mc"> <i>y</i> </span></span><span class="bk r"></span></span></span>.</li>
+<li>4 The combinations <span class="mth"><i>c</i> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 1 </span><span class="mc"> 1 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span> + <i>d</i> <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 2 </span><span class="mc"> 3 </span><span class="mc"> 4 </span></span><span class="bk r"></span></span></span> fill a <strong>plane in <span class="mth"><i>xyz</i></span> space</strong>. Same plane for <span class="mth"><span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 1 </span><span class="mc"> 1 </span><span class="mc"> 1 </span></span><span class="bk r"></span></span></span> , <span class="mth"><span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 4 </span><span class="mc"> 5 </span></span><span class="bk r"></span></span></span>.</li>
+</ul><p>Arithmetic starts with numbers. We operate on those numbers in two essential ways :</p>
+<p><strong>Addition</strong> <span class="mth">2 + 3 = 5</span>  <strong>Multiplication</strong> <span class="mth">(4)(5) = 20</span></p>
+<ul><li>Subtracting 3 is just the inverse of adding 3. Subtract <span class="mth">5 − 3</span> to recover 2.</li>
+<li>Dividing by 5 is just the inverse of multiplying by 5. Divide 20 by 5 to recover 4.</li>
+<li>Combining addition and multiplication leads to <span class="mth">(2)(3 + 4) = (2)(3) + (2)(4)</span>.</li>
+</ul><p>Linear algebra moves addition and multiplication into higher dimensions. Instead of working with single numbers, we work with <strong>vectors</strong>. The vector <span class="mth"><i>v</i> = (3, 1, 7)</span> is a string of three numbers. It is a "3-dimensional vector". The good way is to write <span class="mth"><i>v</i></span> as a column vector. Then we can add two column vectors <span class="mth"><i>v</i></span> and <span class="mth"><i>w</i></span> :</p>
+<p><strong>Vector addition</strong>  <span class="mth"><i>v</i> + <i>w</i> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 1 </span><span class="mc"> 7 </span></span><span class="bk r"></span></span> + <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 4 </span><span class="mc"> 5 </span><span class="mc"> 2 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 7 </span><span class="mc"> 6 </span><span class="mc"> 9 </span></span><span class="bk r"></span></span></span>  (add each pair of components)  (1)</p>
+<p>Subtracting <span class="mth"><i>w</i></span> is just the inverse of adding <span class="mth"><i>w</i></span>, so that <span class="mth"><i>v</i> + <i>w</i> − <i>w</i></span> recovers <span class="mth"><i>v</i></span>.</p>
+<p><strong>Vector subtraction</strong>  <span class="mth">(<i>v</i> + <i>w</i>) − <i>w</i> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 7 </span><span class="mc"> 6 </span><span class="mc"> 9 </span></span><span class="bk r"></span></span> − <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 4 </span><span class="mc"> 5 </span><span class="mc"> 2 </span></span><span class="bk r"></span></span> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 1 </span><span class="mc"> 7 </span></span><span class="bk r"></span></span> = <i>v</i></span>  (2)</p>
+<p>What about multiplication of vectors ? We could multiply each pair of components. If we add the results, we arrive at the "<strong>dot product</strong>" <span class="mth"><i>v</i> · <i>w</i> = 31</span> :</p>
+<div class="eq" role="math" aria-label="v w = | 3 | 1 | 7 | | 4 | 5 | 2 | = (3)(4) + (1)(5) + (7)(2) = 12 + 5 + 14 = 31 (3)"><span class="mth"><span class="boxed"><i>v</i> · <i>w</i> = <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 3 </span><span class="mc"> 1 </span><span class="mc"> 7 </span></span><span class="bk r"></span></span> · <span class="mat"><span class="bk l"></span><span class="bd" style="grid-template-columns:repeat(1,auto)"><span class="mc"> 4 </span><span class="mc"> 5 </span><span class="mc"> 2 </span></span><span class="bk r"></span></span> = (3)(4) + (1)(5) + (7)(2) = 12 + 5 + 14 = 31</span> &emsp;&emsp; (3)</span></div>
+<p><strong>Dot product = 31</strong></p>
+<p>The dot product <span class="mth"><i>v</i> · <i>w</i></span> is a useful way to multiply vectors. In the next section <span class="mth"><i>v</i> · <i>v</i></span> reveals the length of <span class="mth"><i>v</i></span>, and <span class="mth"><i>v</i> · <i>w</i></span> reveals the angle between <span class="mth"><i>v</i></span> and <span class="mth"><i>w</i></span>. But a more important multiplication in linear algebra is <span class="mth"><i>A</i><i>v</i> =</span> <em>matrix times vector</em>.</p>
+  <div class="pageno">016</div>
+</div>
+</body>
+</html>

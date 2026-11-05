@@ -10,10 +10,10 @@
   * 只允许更新自己发出的条目, 禁止改写他人条目。
 
 用法:
-  handoff.py send --project mybook --from operator --to transcriber \
+  handoff.py send --project liner-al --from operator --to transcriber \
       --send "3 页插图已裁剪至 dest/transcriber/" \
       [--state "figures.json + crops/ 就绪"] [--next "按 plan 逐页转录, 完成写 text.md"]
-  handoff.py show --project mybook [--to transcriber] [--from operator] [-n 5]
+  handoff.py show --project liner-al [--to transcriber] [--from operator] [-n 5]
 
 交接板位置: figforge/project/<项目名>/handoff.md（--project 也可直接给路径）
 """

@@ -44,7 +44,7 @@
   },
   "batch": {
     "entry": "python3 scripts/batch.py --project <名> --pack split-text-image [--stage detect|html]",
-    "note": "目录驱动: 自动扫描 project/<名>/src/ 全部原图串行处理（宪法第三条）; state=run-state-<stage>.json; 中间件入 .work/<名>/pack1/, 最终件 dest/<page>.html; 收尾自动更新 handoff.md 交接板（第十三条）",
+    "note": "页级锁步: detect 默认每次只检测'第一个未完成页'（完成 = dest/<page>.html 已产出）—— detect 一页 → 转录排版一页 → 再推进下一页, detect 不超前（用户规则）; --pages 手工兜底指定页不受锁步限制; state=run-state-<stage>.json; 中间件入 .work/<名>/pack1/, 最终件 dest/<page>.html; 收尾自动更新 handoff.md 交接板（第十三条）",
     "stages": [
       "detect",
       "html"
