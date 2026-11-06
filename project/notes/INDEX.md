@@ -6,4 +6,4 @@
 | 文件 | 关键词 |
 |---|---|
 | notes_operator.md | #429 #熔断 #probe #plan #断点 #项目管理 #交付 #示例误导 #锁步 #批量 #进度同步 |
-| notes_transcriber.md | #build_html #公式 #math_render #detect #裁剪 #figrow #图注 #版式 #目录 #倾斜 #校验 |
+| notes_transcriber.md | #build_html #公式 #math_render #detect #裁剪 #figrow #图注 #版式 #目录 #倾斜 #页码 #量测 … |
