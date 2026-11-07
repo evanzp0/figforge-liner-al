@@ -5,16 +5,40 @@
 + 技能 `skills/image-ocr-svg-redraw/SKILL.md`（方法论文档）。
 
 你的工序（不可跳步）：
+0. **开工前置定版**（第七条第 6 款③）：确认项目已定版（handoff.md「定版参数」段 +
+   page-size.json 机器锁; batch.py 开工自动检查）; 未定版先跑
+   `python3 scripts/calibrate.py --project <名>`（版心优先策略: 随机抽 x 张原图测
+   有效内容区宽×高统计定版, padding 人体工程学计算禁用原图留白, x 默认 5）
+   ——转换任何原图之前必须先定版, 全项目所有页面一律遵守同一套参数;
+   **上边距 = 定版 padding（约 100px 级）, 禁止用 {{VOFF}} 复刻扫描件页顶留白**
+   （仅限印刷区相对版心的光学微调, 第七条③）;
 1. 开工先 `handoff.py show --to transcriber` 接上一棒（通常是 operator 的插图裁剪完成单），
    并 `python3 scripts/notes.py show --role transcriber` 查同类经验（第十二条）；
 2. 整页通读，建立页面清单（页眉/页码/段落/粗斜体/公式/插图，及**版式结构**：
    并排图行/左图右文混排/图注带/标题对齐——第七条第 5 款）；
 3. **分块放大逐段核对**（crop_zoom.py 切 2-4 块放大 2-3 倍；切片一律输出到
    `.work/`，第十一条）——数字逐位核、标点照录、粗斜体边界、上下标位置；
+   公式内函数名照写标准 LaTeX 命令（`\cos` `\sin` `\log`…, math_render FUNCS
+   已收录正体+细空格渲染）; 排版回看时若见字面 `\cos` 泄漏 = 管线未收录,
+   记 notes 报 operator 补表（第九条自检红线）, 禁止为绕过而手写"cos"混排;
+   数学文本执行**运算符空格规范**（第零条第 4 款）: 二元符（`· × ÷ ± + − = ≤ ≥`）
+   两侧各留一个空格、一元负号与阶码紧排, 判据 = **紧邻左字符**（左邻为操作数
+   → 二元 → 空格; 左邻为开括号/逗号/行首/另一运算符 → 一元 → 紧排）;
 4. 写 `.work/<项目名>/pack1/<page>/text.md`：极简 Markdown。**插槽是版式指令**
    （第七条第 5 款），按原页版式选写法：相邻多行 `{{FIG:n}}` = 并排图行；
    `{{FIG:n|aside}}` = 左图右文（紧随的连续段落进右列）；独行 = 独立居中图块；
-   图注一律写 figures.json caption，不进 text.md；
+   `{{COLROW}}/{{COL:f}}/{{ENDCOLROW}}` 多栏/图文混排图行（列内可用 {{GAP}}/{{PX}}/
+   {{CTR}} 与 {{FIG:n}}）；`{{BOX}}/{{ENDBOX}}` 圆角重点框条目组（{{BOX:N}} 的 N 录
+   原页框体**外宽**——量到框线外缘; 框内 {{PX}} 字号与 {{GAP}} 间隙用墨高/墨隙
+   实测, 不目测, 框总高以原页框体高为锚）；`{{EQBOX:N}}` 矩形
+   公式框行（行尾 `{{EQN:文本}}` = 框外右侧编号）；`{{EQGROUP:N}}/{{ENDEQGROUP}}`
+   多行共用左缘+行尾编号的条目组（三列表格: 首列空白缩进 + 各行左对齐 + 编号行
+   右对齐贴版心右缘, 禁止逐行 {{CTR}} 凑合）。公式上方的名称标签（如
+   Schwarz/Triangle inequality）**不并入公式行**——公式行保持单一连续文本流
+   （禁止为对齐拆入表格单元格, 第七条第 5 款行上下文校验）, 标签独立成行由
+   排版端实测定位。行尾指令（{{PX}}/{{CTR}}/{{R}}/
+   {{IND}}/{{SX}}）一律写在**行尾**（写行首会成为字面残留）。单图图注写 figures.json
+   caption；图行下方共享图注写 text.md 段落（"Figure N.N:" 前缀加粗）；
 5. 完成的页立即 `plan.py done <page>` + `handoff.py send --from transcriber` 回执
    （批量排版由 operator 跑 `batch.py --pack split-text-image --stage html`）；
 6. 本棒全部页完成后：有已解决的错误先 `notes.py add` 沉淀经验

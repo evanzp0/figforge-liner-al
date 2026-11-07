@@ -69,28 +69,29 @@ figforge/
 
 ```bash
 # 0) 就位（宪法第十条）: 输出可用流程清单 + 自检; 建项目（仅当 project/ 下无现成项目时）;
-#    ⚠ 项目名必须对应真实书源, 禁止自建与仓库无关的项目（仓库自带 liner-al 则直接用）
+#    ⚠ 项目名必须对应真实书源, 禁止自建与仓库无关的项目; 示例中的 <your_project_name>
+#    一律换成你 project/ 下已存在的真实项目名
 bash scripts/forge.sh list
 bash scripts/forge.sh doctor
-bash scripts/forge.sh new split-text-image liner-al   # project/ 已有 liner-al 时跳过此步
-cp ~/scans/*.png project/liner-al/src/                # 仓库已带 src/ 时跳过此步
+bash scripts/forge.sh new split-text-image <your_project_name>   # project/ 已有该项目时跳过此步
+cp ~/scans/*.png project/<your_project_name>/src/                # 仓库已带 src/ 时跳过此步
 
 # 1) pack-1 批量: 插图检测裁剪（页级锁步: detect 一页 → 转录排版一页, 不超前）
-python3 scripts/batch.py --project liner-al --pack split-text-image
+python3 scripts/batch.py --project <your_project_name> --pack split-text-image
 #    转录（transcriber 角色, 宪法第零条分块核对）→ .work/<名>/pack1/<page>/text.md
 # 1') 排版: 对已转录页批量生成书页 HTML
-python3 scripts/batch.py --project liner-al --pack split-text-image --stage html
+python3 scripts/batch.py --project <your_project_name> --pack split-text-image --stage html
 
 # 2) pack-2 批量: 渲染 .work/<名>/pack2/specs/ 下全部 spec（figure-artisan 供 spec）
-python3 scripts/batch.py --project liner-al --pack px2svg
+python3 scripts/batch.py --project <your_project_name> --pack px2svg
 
 # 3) pack-3 批量: 逐页编排 HTML + 内嵌 SVG
-python3 scripts/batch.py --project liner-al --pack html-svg
+python3 scripts/batch.py --project <your_project_name> --pack html-svg
 
 # 交接板与断点
-python3 scripts/handoff.py show --project liner-al
-python3 scripts/plan.py show --file project/liner-al/plan.md
-scripts/archive.sh project/liner-al/dest --final
+python3 scripts/handoff.py show --project <your_project_name>
+python3 scripts/plan.py show --file project/<your_project_name>/plan.md
+scripts/archive.sh project/<your_project_name>/dest --final
 
 # 自动备份（宪法第一条①）: 只备 project/ 内容, 排除各项目 src/ 原图
 scripts/archive.sh
@@ -104,9 +105,9 @@ python3 scripts/notes.py add --role operator \
     --symptom "现象一句话" --fix "怎么解决的" --tags "标签1,标签2"
 
 # 4) 完成协议（宪法第十一条）: 写好 handoff 后, 清 .work 并打包交付快照
-bash scripts/complete.sh --project liner-al
+bash scripts/complete.sh --project <your_project_name>
 # 交付快照需排除 project/ 时（不含项目工作区）:
-bash scripts/complete.sh --project liner-al --no-project
+bash scripts/complete.sh --project <your_project_name> --no-project
 ```
 
 `batch.py` 常用参数：`--stage`（见各 pack）、`--pages 0101,0107`（子集）、

@@ -4,26 +4,43 @@
 <meta charset="utf-8">
 <title>{{TITLE}}</title>
 <style>
-  body { background: #e8e4dc; margin: 0; padding: 24px; display: flex; justify-content: center; }
+  /* 宪法第七条第 6 款②③: 页面宽/高 = 版心优先 + 人体工程学页框（宽 820 舒适阅读宽;
+     高 = 项目定版版心高 + 上下 padding; 高/宽比夹紧 [1.05,1.60]）, 由 build_html
+     依项目定版 page-size.json 统一写入, 禁止照搬原图像素尺寸与原图留白;
+     padding（上下左右）亦为人体工程学定版（上下 = 0.75 × 左右, Tschichold
+     top:outer ≈ 3:4; 左右 = 版心等距边距）, 不取自原图留白（第七条第 6 款③）;
+     定版参数由 scripts/calibrate.py 随机抽 x 张原图统计产出（x 默认 5,
+     handoff.md「定版参数」段 + page-size.json 机器锁）, 全项目所有页面同尺寸
+     （开工前置定版, batch.py 自动检查, 后续页面自动复用）。
+     --u = PAGE_W/820 模板铬件缩放; 版式指令({{GAP}}/{{PX}}/...)由 build_html 按
+     k = PAGE_W/原图宽 等比落位, 图文布局与原页等比逐项复刻 */
+  body { background: #e8e4dc; margin: 0; padding: 24px; display: flex; justify-content: center; align-items: flex-start; }
   .page {
-    background: #fff; width: 820px; max-width: 96vw; padding: 56px 64px 72px;
+    --u: {{SCALE}};
+    background: #fff; box-sizing: border-box; flex-shrink: 0;
+    width: {{PAGE_W}}px; height: {{PAGE_H}}px;
+    padding: calc({{PAD_T}}px*var(--u)) calc({{PAD_H}}px*var(--u)) calc({{PAD_B}}px*var(--u));
     box-shadow: 0 2px 14px rgba(0,0,0,.18); border-radius: 2px;
     font-family: "Times New Roman", Times, "Liberation Serif", serif;
-    font-size: 17px; line-height: 1.65; color: #1a1a1a;
+    font-size: calc(17px*var(--u)); line-height: 1.65; color: #1a1a1a;
+    overflow: hidden;
   }
-  .runhead { text-align: center; font-size: 13px; color: #666; letter-spacing: .12em; margin-bottom: 28px; }
-  h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
-  h2 { font-size: 19px; margin: 26px 0 8px; text-align: right; }
-  h3 { font-size: 17px; margin: 20px 0 6px; }
-  p { margin: 0 0 10px; text-align: justify; }
+  .runhead { text-align: center; font-size: calc(13px*var(--u)); color: #666; letter-spacing: .12em; margin-bottom: calc(28px*var(--u)); }
+  h1 { font-size: calc(24px*var(--u)); margin: 0 0 calc(8px*var(--u)); text-align: center; }
+  h2 { font-size: calc(19px*var(--u)); margin: calc(26px*var(--u)) 0 calc(8px*var(--u)); text-align: right; }
+  h3 { font-size: calc(17px*var(--u)); margin: calc(20px*var(--u)) 0 calc(6px*var(--u)); }
+  p { margin: 0 0 calc(10px*var(--u)); text-align: justify; }
   p.indent { text-indent: 2em; }
+  p.ctr { text-align: center; }
+  /* 宪法第七条第 6 款①: 竖直占位指令 {{GAP:N}} —— N 为原图像素, build_html 按 k 等比落位 */
+  .vgap { width: 100%; }
   .imath { font-style: italic; }
   /* ---- 纯 CSS 数学排版（math_render 产物; 技能 output-templates 同款） ---- */
   .mth i { font-style: italic; }
   .mth b { font-weight: 700; }
   sup, sub { font-size: .72em; line-height: 0; }
-  .mth .mat { display: inline-flex; align-items: stretch; vertical-align: middle; margin: 0 3px; }
-  .mth .mat .bk { width: 6px; border: 1.6px solid #1a1a1a; }
+  .mth .mat { display: inline-flex; align-items: stretch; vertical-align: middle; margin: 0 calc(3px*var(--u)); }
+  .mth .mat .bk { width: calc(6px*var(--u)); border: 1.6px solid #1a1a1a; }
   .mth .mat .bk.l { border-right: 0; }
   .mth .mat .bk.r { border-left: 0; }
   .mth .mat .bk.pl { border-right: 0; border-radius: 12px 0 0 12px; }
@@ -31,35 +48,56 @@
   .mth .mat .bk.cl { border-right: 0; border-radius: 8px; }
   .mth .mat .bk.cr { border-left: 0; border-radius: 8px; }
   .mth .mat .bar { width: 1.6px; border-left: 1.6px solid #1a1a1a; }
-  .mth .mat .bd { display: inline-grid; align-items: center; justify-items: center; padding: 4px 10px; }
-  .mth .mat .mc { padding: 2px 10px; line-height: 1.3; }
+  /* 矩阵/括号组件内部间距一律 em 相对字号, 禁止固定 px（025 教训: px 按 17px
+     模板字号设计, 行内小字号下占比失控 → 括号被撑到 3.85em 高（原书 ≈2.15em）
+     宽近 2 倍, 方框内容排版失真）; 比例锚定原书实测: 2 行括号总高 ≈2.2em,
+     行距 ≈1.1em, 括号外宽 ≈1.8em（数字 0.5em + 两侧各 0.65em 括号区） */
+  .mth .mat .bd { display: inline-grid; align-items: center; justify-items: center; padding: 0.05em 0.12em; }
+  .mth .mat .mc { padding: 0.02em 0.2em; line-height: 1.05; }
   .mth .mat .mc.empty { padding: 0; }
-  .mth .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; margin: 0 2px; }
-  .mth .frac .num { border-bottom: 1.1px solid #1a1a1a; padding: 0 5px 1px; }
-  .mth .frac .den { padding: 1px 5px 0; }
-  .mth .boxed { display: inline-block; border: 1.4px solid #1a1a1a; border-radius: 4px; padding: 3px 8px; margin: 0 2px; }
-  .mth .rad { border-top: 1.1px solid #1a1a1a; padding: 0 2px; }
-  .eq { text-align: center; margin: 14px 0; font-size: 18px; }
-  .eq .mat .mc { font-size: 17px; }
-  ul { margin: 6px 0 10px 1.6em; padding: 0; }
-  li { margin: 3px 0; text-align: left; }
-  figure.fig { margin: 18px auto; text-align: center; max-width: 100%; }
+  .mth .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; margin: 0 calc(2px*var(--u)); }
+  .mth .frac .num { border-bottom: 1.1px solid #1a1a1a; padding: 0 calc(5px*var(--u)) calc(1px*var(--u)); }
+  .mth .frac .den { padding: calc(1px*var(--u)) calc(5px*var(--u)) 0; }
+  .mth .boxed { display: inline-block; border: 1.4px solid #1a1a1a; border-radius: 4px; padding: calc(3px*var(--u)) calc(8px*var(--u)); margin: 0 calc(2px*var(--u)); }
+  .mth .rad { border-top: 1.1px solid #1a1a1a; padding: 0 calc(2px*var(--u)); }
+  .eq { text-align: center; margin: calc(14px*var(--u)) 0; font-size: calc(18px*var(--u)); }
+  .eq .mat .mc { font-size: calc(17px*var(--u)); }
+  ul { margin: calc(6px*var(--u)) 0 calc(10px*var(--u)) 1.6em; padding: 0; }
+  li { margin: calc(3px*var(--u)) 0; text-align: left; }
+  figure.fig { margin: calc(18px*var(--u)) auto; text-align: center; max-width: 100%; }
   figure.fig img { max-width: 100%; height: auto; }
   figure.fig svg { max-width: 100%; height: auto; }
   /* 图注: 原版式 = 正文字号/深色/非斜体, 随图左对齐, 图号前缀加粗 */
-  figcaption { font-size: 17px; color: #1a1a1a; margin-top: 8px; line-height: 1.55; text-align: left; }
+  figcaption { font-size: calc(17px*var(--u)); color: #1a1a1a; margin-top: calc(8px*var(--u)); line-height: 1.55; text-align: left; }
   /* 原版式·并排图行: 相邻插图槽成组, 各图 flex-grow = 裁剪实际像素宽;
      图元拉伸到行高, 图注贴底 → 图注带在较高一图下缘对齐（同纸面） */
-  .figrow { display: flex; gap: 18px; margin: 18px 0; }
+  .figrow { display: flex; gap: calc(18px*var(--u)); margin: calc(18px*var(--u)) 0; }
   .figrow figure.fig { margin: 0; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
   /* 原版式·图文混排: 左图右文, 图列宽 = 裁剪像素宽/源图正文栏宽 */
-  figure.figaside { margin: 18px 0; }
+  figure.figaside { margin: calc(18px*var(--u)) 0; }
   .figaside .aside-row { display: flex; gap: 4%; align-items: flex-start; }
   .figaside .figimg img, .figaside .figimg svg { width: 100%; height: auto; }
-  .figaside .asidetext { flex: 1 1 auto; min-width: 0; padding-top: 14px; }
+  .figaside .asidetext { flex: 1 1 auto; min-width: 0; padding-top: calc(14px*var(--u)); }
   .figaside .asidetext p { margin: 0; }
-  .figaside figcaption { margin-top: 12px; text-indent: 3em; }
-  .pageno { text-align: center; margin-top: 34px; font-size: 14px; color: #777; }
+  .figaside figcaption { margin-top: calc(12px*var(--u)); text-indent: 3em; }
+  /* 原版式·多栏文本行: COLROW/COL/ENDCOLROW 指令 —— f = 列宽原图像素,
+     flex-basis 精确落位; 空列 = 占位; 列顶对齐, 列内竖直节奏由 {{GAP}} 控制;
+     列内支持 FIG 插图槽（图文混排图行） */
+  .colrow { display: flex; gap: calc(12px*var(--u)); align-items: flex-start; }
+  .colrow .col { min-width: 0; }
+  .colrow .col p { margin: 0; }
+  .colrow .col figure.fig { margin: 0; }  /* 列内图位距由 {{GAP}} 精确控制 */
+  /* 原版式·重点框（{{BOX}}/{{ENDBOX}} 圆角框条目组）与公式框（{{EQBOX:N}} 矩形框,
+     {{EQN:}} 框外编号）—— 第七条第 6 款① 版式复刻 */
+  .keybox { border: calc(1.6px*var(--u)) solid #1a1a1a;
+            border-radius: calc(14px*var(--u));
+            padding: calc(10px*var(--u)) calc(14px*var(--u)) calc(9px*var(--u)); }
+  .keybox p { margin: 0; }
+  .eqbox { display: flex; align-items: center; }
+  .eqbox .eqbox-in { border: calc(1.4px*var(--u)) solid #1a1a1a; display: inline-block;
+                     padding: calc(7px*var(--u)) calc(10px*var(--u)); }
+  .eqbox .eqnum { margin-left: calc(26px*var(--u)); }
+  .pageno { text-align: center; margin-top: calc(34px*var(--u)); font-size: calc(14px*var(--u)); color: #777; }
 </style>
 </head>
 <body>

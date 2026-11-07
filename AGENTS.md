@@ -40,15 +40,31 @@ python3 scripts/batch.py --project <名> --pack html-svg
 
 ### 工具（scripts/ 与 packs 内脚本）
 
-- `forge.sh`：list（输出本清单）/ doctor（依赖自检）/ new（建项目）
+- `forge.sh`：list（输出本清单）/ doctor（依赖自检）/ new（建项目, `--samples x`
+  设定定版随机抽样数, 默认 5, 第七条第 6 款③）
   / clean（清空 project/ 重置工作区, 第十一条⑤）/ install（组合安装）
 - `batch.py`（批量入口, 段末自动备份接力, 第一条②）/ `runner.py`（串行核心）
   / `plan.py`（计划核销）
 - `handoff.py`（交接板: 每 发→收 一条, send 就地更新, 附录+第十三条）
   / `archive.sh`（归档: 无参数 = 自动备份 project/ 排除各项目 src/, 第一条①）
   / `probe-429.sh`（限流探测）
+- `calibrate.py`（开工前置定版, 第七条第 6 款③: 版心优先 —— 随机抽 x 张原图测
+  有效内容区宽×高统计定版 → padding 由人体工程学计算（左右等距, 上下 = 0.75×左右,
+  禁用原图留白测算）→ 写 handoff.md「定版参数」段 + page-size.json 机器锁;
+  --pages <id,...> 复现同一样本集; batch.py 开工自动调用; `rescale --project <名>
+  --scale <S>` = 阅读缩放定版, 改定版页宽/高唯一合法通道 —— 锁值保持 820 基准
+  设计值、页宽高 = 基准×S、scale/scale_base 入锁、handoff 定版参数段覆盖写）
+- `rescale_html.py`（存量现行格式页真参数重定标: 内联真字号/真边距/真间距 ×S,
+  与按新锁重建数值等价, 幂等, 随后 validate_html 复验; 禁止 CSS zoom/transform
+  冒充, 第七条第 6 款③）/ `fix_math_spacing.py`（数学运算符空格幂等修复与复扫:
+  二元符两侧空格、一元负号紧排, 判据 = 紧邻左字符, 第零条第 4 款; `--check` 复扫
+  clean 为验收锚）
 - `notes.py`（经验库, 第十二/十三条: add 沉淀（同现象自动合并）/ show 检索
   / reindex 重建 INDEX.md）
+- `validate_html.py`（生成 HTML 分层校验, 第十四条强制闭环: L0 静态/L1 几何硬
+  门禁/L2 墨迹节律+对比图/L3 文本保真/L4 外部工具插槽; `--pages <id,...>|all-dest`;
+  FAIL 不得交付, 校验-调整-复验闭环; L1 数值基线按定版锁 scale 换算,
+  渲染视口 1200×1600）
 - `complete.sh`（完成协议, 第十一条: 校验 handoff → 清 `.work` → 打包 figforge 为 .tar.gz）
 - pack 脚本：`detect_figures.py`、`build_html.py`、`mpl_redraw.py`、`compose_page.py`
   （pack 脚本只做单页，批量语义只在 batch.py —— 宪法第三条）
@@ -58,8 +74,13 @@ python3 scripts/batch.py --project <名> --pack html-svg
 ## 就位后的执行顺序
 
 1. **自检**：`bash scripts/forge.sh doctor`（依赖缺失先补齐）。
-2. **建/进项目**：`bash scripts/forge.sh new <pack> <项目名>`，
-   原图放入 `project/<项目名>/src/`（页 id = 文件名去扩展名）。
+2. **建/进项目**：`bash scripts/forge.sh new <pack> <项目名> [--samples x]`（x =
+   定版随机抽样数, 默认 5）, 原图放入 `project/<项目名>/src/`（页 id = 文件名去扩展名）;
+   **开工定版前置**（第七条第 6 款③, 强制红线）: 转换任何原图之前 handoff.md 必须已写明
+   页面宽/高、版心、四边 padding 等定版参数——未定版则随机抽 x 张原图按**版心优先**
+   策略统计定版（版心 = 除去留白的有效内容区; padding 人体工程学计算, 不取原图留白;
+   batch.py 开工自动检查; 手工兑底 `python3 scripts/calibrate.py --project <名>`）,
+   已定版禁止重复测算, 全项目所有页面一律遵守同一套参数。
 3. **认领角色**（上方清单）：读对应 `roles/<角色>.prompt`；
    pack 级操作手册在 `packs/<pack>/workflow.md`。
 4. **批量干活**（宪法第三条）：一切批量走 `batch.py`（见上方清单命令）；
@@ -78,7 +99,9 @@ python3 scripts/batch.py --project <名> --pack html-svg
    `bash scripts/complete.sh --project <名>`（第十一条：自动清 `.work` 并打包
    交付快照，notes/ 一并入库）。
 
-禁止事项速记：并发调 API（三）、绕过对比图交付重绘图或版式（七）、JS `replace` 直拼
+禁止事项速记：并发调 API（三）、绕过对比图交付重绘图或版式（七）、未定版就转换原图或
+逐页另取尺寸（七③）、用原图留白测算 padding 或用 VOFF 复刻扫描件页顶留白致上边距
+过窄（七③）、CSS zoom/transform 冒充阅读缩放或为对齐拆行改行内字符间距（七⑤⑥）、JS `replace` 直拼
 含 `$` 内容（五）、429 硬重试（六）、交付前不自检（九）、凭记忆接活（附录）、
 未输出流程清单就开工（十）、临时内容写出 `.work/` 或未写 handoff 就 complete（十一）、
 排障不查 notes 或同类错误二次出现（十二）、写流水账/逐轮日志或运行日志出 `.work`（十三）。
@@ -96,6 +119,9 @@ project/<项目名>/
 │   └── img/                    插图最终件: <page>.jpg（pack-1 裁剪, 多图页 -fig<i>）;
 │                               <page>.svg（pack-2 重绘主档, 仅 jpg→svg 重绘流程存在）
 ├── handoff.md                  角色交接板（每 发→收 只留最新一条, 第十三条）
+│                               + 「定版参数」段（calibrate.py 产出, 第七条第 6 款③）
+├── page-size.json              定版机器锁（宽/高 + 版心 + 四边 padding; build_html 自动读锁复用）
+├── config.json                 项目配置（layout_samples = 定版随机抽样数 x, 默认 5）
 ├── plan.md / run-state-<stage>.json
 
 figforge/.work/<名>/            ★ 全部中间产物（随批归档, complete 清理, 第十一条）

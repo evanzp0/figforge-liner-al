@@ -14,6 +14,7 @@ text.md 中的 $...$ / $$...$$ 公式渲染成技能 output-templates.md 同款�
   * \frac{a}{b} \sqrt{x} \boxed{...}
   * 希腊字母（\Lambda \Sigma \pi ...）、常用符号（\times \cdot \pm \le \ge \ne
     \approx \rightarrow \infty \sum ...）
+  * 函数名正体（\cos \sin \tan \log \ln \lim \exp ... → cos θ 同款）
   * 间距: \quad \qquad \, \: \; \(空格) \!
   * \left[ \right] 等定界符（含 \{ \} | ）
   * 普通字母斜体（数学约定）、数字/运算符/括号直立、"-" 转真减号 −
@@ -51,6 +52,17 @@ SYMBOLS = {
     "forall": "∀", "exists": "∃", "neg": "¬", "lnot": "¬", "land": "∧", "lor": "∨",
     "angle": "∠", "perp": "⊥", "parallel": "∥", "mid": "|", "prime": "′",
     "ell": "ℓ", "aleph": "א", "wp": "℘", "Re": "ℜ", "Im": "ℑ",
+}
+
+# LaTeX 函数名 → 正体渲染 + 后细空格（LaTeX 约定: 函数名直立, 如 \cos θ →
+# cos θ; 原书 025 页实测同款。025 教训: 未收录时走未知命令兜底, 字面泄漏
+# "\cos" —— 数学转录常用函数名必须显式收录）
+FUNCS = {
+    "cos", "sin", "tan", "cot", "sec", "csc",
+    "arccos", "arcsin", "arctan", "arcsec", "arccsc", "arccot",
+    "sinh", "cosh", "tanh", "coth",
+    "log", "ln", "lg", "exp", "lim", "limsup", "liminf",
+    "max", "min", "sup", "inf", "det", "dim", "deg", "arg", "ker", "gcd", "Pr",
 }
 
 # \, \: \; \  \! 与 \quad \qquad —— 用实体, 浏览器可换行处理更稳
@@ -170,6 +182,9 @@ class _Parser:
             return SYMBOLS[name]
         if name == "hline" or name == "cline":
             return ""
+        if name in FUNCS:
+            # 函数名正体 + 细空格（LaTeX 约定; 上下标仍由主循环 ^_ 处理）
+            return esc(name) + "&thinsp;"
         # 未知命令: 原样保留（诚实渲染, 第九条）
         return esc("\\" + name)
 

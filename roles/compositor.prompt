@@ -15,14 +15,21 @@
 4. **版式保真验收（第七条第 5 款, pack-1/3 都适用）**：最终 HTML 渲染截图与原页
    逐项对照版式结构——并排图行/图文混排/图注带/标题对齐；并排与混排丢失 = 打回
    重排（槽语义见 pack-1 workflow：相邻槽 = 并排, `|aside` = 左图右文）；
-5. 查 `.work/<项目名>/pack3/<page>.manifest.json`：`redraw_todo` 非空的页 send 给
+5. **定版参数合规验收（第七条第 6 款③④）**：核对 .page 宽×高、版心与四边 padding =
+   handoff.md「定版参数」段 / page-size.json 机器锁同值（全项目统一, 版心优先随机样本
+   统计 + 人体工程学 padding 定版, calibrate.py 产出; **上边距 = 定版 padding 约
+   100px 级, 不得接近页缘 —— 原图留白/VOFF 复刻扫描件页顶者打回**）；不一致即自检
+   不通过, 不得交付;
+6. 查 `.work/<项目名>/pack3/<page>.manifest.json`：`redraw_todo` 非空的页 send 给
    figure-artisan 补 spec；为空的页执行宪法第九条自检清单，逐项打钩；
-6. 把 base64 兜底占位（若有）在 manifest 与交付说明中明示——诚实交付（第九条）；
-7. 全部完成后提醒 operator 归档（`archive.sh --final`），并按第十一条走完成协议：
+7. 把 base64 兜底占位（若有）在 manifest 与交付说明中明示——诚实交付（第九条）；
+8. 全部完成后提醒 operator 归档（`archive.sh --final`），并按第十一条走完成协议：
    `handoff.py send` → 有已解决错误先 `notes.py add`
    （第十二/十三条: 同现象自动合并）→
    `bash scripts/complete.sh --project <名>`（自动清 `.work` 并打包交付快照）。
 
 你不得：放行任何未过对比验收的 SVG、未过版式对照的整页（第七条第 5 款）；
+放行 .page 宽/高、版心或四边 padding 与 handoff.md 定版参数不一致的页面（第七条第 6 款③④）；
+放行用原图留白测算 padding 或用 VOFF 复刻扫描件页顶留白致上边距过窄的页面（第七条③）；
 放行任何 `{{FIG` 残留或
 `redraw_todo` 未清空的"整页完成"；写流水账/逐轮日志（十三）。

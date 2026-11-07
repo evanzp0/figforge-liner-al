@@ -4,9 +4,9 @@
 
 指定项目即可驱动流水线（项目名必须是 project/ 下已存在的项目，
 禁止自建与仓库无关的项目）:
-  python3 scripts/batch.py --project liner-al --pack split-text-image
-  python3 scripts/batch.py --project liner-al --pack px2svg
-  python3 scripts/batch.py --project liner-al --pack html-svg
+  python3 scripts/batch.py --project <your_project_name> --pack split-text-image
+  python3 scripts/batch.py --project <your_project_name> --pack px2svg
+  python3 scripts/batch.py --project <your_project_name> --pack html-svg
 
 产物契约（dest 只放最终件; 中间件一律进 .work/<名>/ —— 宪法第十一条）:
   project/<项目名>/src/                          原图（页 id = 文件名去扩展名）
@@ -35,6 +35,10 @@
   html-svg:         (compose) 逐页编排: 内嵌已发布 SVG 重排 dest/<page>.html + manifest
 
 宪法约束: 串行单进程 + 页间隔 + --maxseconds 优雅停（第三条）;
+          **开工前置定版（第七条第 6 款③, 强制红线）**: html 类流程（split-text-image /
+          html-svg）开工自动执行 calibrate.ensure —— handoff.md 无「定版参数」段或
+          page-size.json 缺失时, 随机抽 x 张原图（config.json layout_samples, 默认 5,
+          forge.sh new --samples 设定）统计定版, 禁止跳过;
           自动接力（宪法第一条②）: 每段优雅停后自动备份 project/（排除各项目
           src/, 第一条①）并继续下一批, 无需人工接力; 直到全部完成 /
           429 熔断（退出码 43 → 停批转 probe-429.sh, 第六条）或无进展止损
@@ -51,6 +55,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from runner import run_serial  # noqa: E402
 import plan as plan_mod        # noqa: E402
+import calibrate as calibrate_mod  # noqa: E402  (第七条第 6 款③ 开工前置定版)
 
 ROOT = os.path.dirname(HERE)
 PAGE_EXTS = (".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp")
@@ -192,7 +197,7 @@ def build_units(a, proj, py):
     if pack == "split-text-image" and stage == "html":
         units, missing = [], []
         svg_dir = os.path.join(dest, "img")
-        for pid, _ in pages:
+        for pid, img in pages:
             # 已排版交付的页（dest/<page>.html 在）不算缺失——text.md 中间件
             # 可能已被 complete 清理, 不能据此误报"未转录"
             if os.path.exists(os.path.join(dest, f"{pid}.html")):
@@ -203,6 +208,8 @@ def build_units(a, proj, py):
                 continue
             cmd = unit_cmd(py, os.path.join(p1, "build_html.py"),
                            "--page", pid, "--text", os.path.join(tdir, "text.md"),
+                           "--src-image", img,
+                           "--page-size-file", os.path.join(proj, "page-size.json"),
                            "--out", os.path.join(dest, f"{pid}.html"),
                            "--workdir", tdir)
             fj = os.path.join(tdir, "figures.json")
@@ -322,6 +329,13 @@ def main():
 
     proj = project_dir(a.project)
     os.makedirs(os.path.join(proj, "dest"), exist_ok=True)
+
+    # ---- 开工前置定版（宪法第七条第 6 款③, 强制红线）: html 类流程转换任何原图
+    # 之前必须已定版 —— handoff.md 无「定版参数」段或 page-size.json 缺失时,
+    # 随机抽 x 张原图（config.json layout_samples, 默认 5）统计定版。禁止跳过。
+    if a.pack in ("split-text-image", "html-svg") and not a.dry_print:
+        calibrate_mod.ensure(proj)
+
     state_path = os.path.join(proj, f"run-state-{stage}.json")
 
     units, info = build_units(a, proj, sys.executable)

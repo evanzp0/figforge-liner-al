@@ -3,7 +3,9 @@
 # 用法:
 #   forge.sh list                       # 列出可用 packs
 #   forge.sh doctor                     # 依赖自检（python/matplotlib/PIL/字体/z-ai）
-#   forge.sh new <pack> <项目名>        # 创建项目工作区（project/<名>/）
+#   forge.sh new <pack> <项目名> [--samples x]
+#                                       # 创建项目工作区（project/<名>/）;
+#                                       # --samples x = 定版随机抽样数（默认 5, 宪法第七条第 6 款③）
 #   forge.sh clean                      # 清空 project/（重置工作区; 建议先 archive.sh 备份）
 #   forge.sh install <pack> <target>    # 把 pack + 共享运行时 + 宪法组合到目标目录
 #     * pack = html-svg 时自动带上依赖的 split-text-image 与 px2svg
@@ -12,7 +14,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 usage() {
-  echo "usage: forge.sh list | doctor | new <pack> <项目名> | clean | install <pack> <target-dir>" >&2
+  echo "usage: forge.sh list | doctor | new <pack> <项目名> [--samples x] | clean | install <pack> <target-dir>" >&2
   exit 1
 }
 
@@ -38,16 +40,19 @@ PYEOF
   done
   echo "可用角色（roles/）: operator / transcriber / figure-artisan / compositor"
   echo "可用工具（scripts/ + packs 内脚本）:"
-  echo "  forge.sh(list|doctor|new|clean|install)  batch.py  runner.py  plan.py  handoff.py  archive.sh  probe-429.sh  complete.sh  notes.py"
+  echo "  forge.sh(list|doctor|new|clean|install)  batch.py  runner.py  plan.py  handoff.py  archive.sh  probe-429.sh  complete.sh  notes.py  calibrate.py"
   echo "  detect_figures.py  build_html.py  mpl_redraw.py  compose_page.py"
   echo "工作区约定: project/ 基线为空 —— 一切内容（项目工作区/notes/）由 scripts 与流程角色运行时生成;"
   echo "  bash scripts/forge.sh clean 一键清空 project/ 重置工作区（清空前按需 archive.sh 备份）"
 }
 
-# scaffold <项目目录> —— 项目工作区骨架: src/ + dest/（只放最终件, 第十一条） + handoff.md + plan.md
+# scaffold <项目目录> [定版抽样数x] —— 项目工作区骨架: src/ + dest/（只放最终件, 第十一条）
+#   + handoff.md + plan.md + config.json（layout_samples, 宪法第七条第 6 款③）
 scaffold() {
-  proj="$1"
+  proj="$1"; samples="${2:-5}"
   mkdir -p "$proj/src" "$proj/dest/img"
+  # 定版抽样数 x（calibrate.py 读取; 默认 5, 第七条第 6 款③）
+  [ -f "$proj/config.json" ] || printf '{ "layout_samples": %s }\n' "$samples" > "$proj/config.json"
   [ -f "$proj/handoff.md" ] || cat > "$proj/handoff.md" <<'EOF'
 # HANDOFF — 角色交接板（非日志, 宪法第十三条）
 > 每个 发→收 只保留最新一条, send 就地更新; 开工先读上一棒 NEXT（scripts/handoff.py show）。只允许更新自己发出的条目。
@@ -143,16 +148,25 @@ case "$cmd" in
     ;;
 
   new)
-    pack="${1:?usage: forge.sh new <pack> <项目名>}"
-    name="${2:?usage: forge.sh new <pack> <项目名>}"
+    pack=""; name=""; samples=5
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --samples) samples="${2:?--samples 需要正整数 x（定版随机抽样数, 宪法第七条第 6 款③）}"; shift 2 ;;
+        *) if [ -z "$pack" ]; then pack="$1"; elif [ -z "$name" ]; then name="$1"; fi; shift ;;
+      esac
+    done
+    pack="${pack:?usage: forge.sh new <pack> <项目名> [--samples x]}"
+    name="${name:?usage: forge.sh new <pack> <项目名> [--samples x]}"
+    case "$samples" in ''|*[!0-9]*|0) echo "forge.sh: --samples 需要正整数 x（默认 5, 宪法第七条第 6 款③）" >&2; exit 1;; esac
     [ -d "$ROOT/packs/$pack" ] || { echo "forge.sh: 未知 pack: $pack" >&2; exit 1; }
     case "$pack" in html-svg) packs_to_copy="html-svg split-text-image px2svg";; *) packs_to_copy="$pack";; esac
     for p in $packs_to_copy; do [ -d "$ROOT/packs/$p" ] || fail_missing "packs/$p"; done
     proj="$ROOT/project/$name"
     if [ -d "$proj" ]; then echo "[forge] 项目已存在: $proj" >&2; exit 1; fi
     mkdir -p "$proj"
-    scaffold "$proj"
+    scaffold "$proj" "$samples"
     echo "[forge] 项目 '$name'（$pack）已创建: $proj"
+    echo "[forge] 定版抽样数 x=$samples（写入 config.json; 开工 batch.py 自动随机抽 x 张原图定版, 第七条第 6 款③）"
     echo "[forge] 下一步: cp 原图 → $proj/src/ 后跑: python3 scripts/batch.py --project $name --pack $pack"
     ;;
 

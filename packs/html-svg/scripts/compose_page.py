@@ -139,6 +139,7 @@ def main():
         raise SystemExit(f"compose_page: 缺 {text_md}（transcriber 先按 pack-1 workflow 产出）")
     run([sys.executable, os.path.join(P1, "build_html.py"),
          "--page", page, "--text", text_md,
+         "--src-image", src_img,
          "--figures", figures_json, "--figure-map", figmap_path,
          "--workdir", p1_dir,
          "--out", out_html,
