@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Page 10 — Chapter 1. Vectors and Matrices</title>
+<style>
+html { background:#f0f0ee; }
+body { margin:0; padding:36px 0; display:flex; justify-content:center; }
+.sheet { width:774px; height:1098px; background:#fff; border:1px solid #d8d8d4;
+  box-shadow:0 1px 5px rgba(0,0,0,.10); position:relative; box-sizing:border-box;
+  font-family:"Liberation Serif","Times New Roman",Times,serif; color:#111;
+  -webkit-font-smoothing:antialiased; }
+.ln { position:absolute; margin:0; }
+.j { text-align:justify; text-align-last:auto; }
+b, strong { font-weight:bold; }
+i, em { font-style:italic; }
+sup { font-size:66%; line-height:0; vertical-align:super; }
+sub { font-size:66%; line-height:0; vertical-align:sub; }
+.fr { display:inline-block; text-align:center; vertical-align:-0.62em; line-height:1; font-size:76%; }
+.fr .n { display:block; padding:0 3px; }
+.fr .d { display:block; border-top:1.1px solid #111; padding:0 3px; }
+.brk { position:relative; display:inline-block; padding:1px 7px; }
+.brk::before { content:""; position:absolute; left:0; top:2px; bottom:-1px; width:6px;
+  border-left:1.5px solid #111; border-top:1.5px solid #111; border-bottom:1.5px solid #111; }
+.brk::after { content:""; position:absolute; right:0; top:2px; bottom:-1px; width:6px;
+  border-right:1.5px solid #111; border-top:1.5px solid #111; border-bottom:1.5px solid #111; }
+.mrows { display:flex; flex-direction:column; }
+.mrows > div { display:flex; justify-content:center; }
+/* v4 matrix-cell standard: cells are flex items (min-width/text-align do
+   nothing on plain inline spans).  Single-column vectors: natural width,
+   centred -> snug bracket, digits centred as in the source. */
+.mc { flex:0 0 auto; text-align:center; white-space:nowrap; }
+</style>
+<style>.ln.j{word-spacing:-0.8px;letter-spacing:-0.1px}</style>
+</head>
+<body>
+<div class="sheet">
+<div class="ln" id="folio" style="left:104.4px; top:107.5px; width:34.3px; font-size:17px; line-height:19.4px; white-space:nowrap;"><b>10</b></div>
+<div class="ln" id="header" style="left:465.6px; top:94.3px; width:192.8px; font-size:14px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>Chapter 1. Vectors and Matrices</b></div>
+<img class="ln" id="figA" src="img/024_fig-a.jpg" style="left:171.4px; top:149.0px; width:185.9px; height:165.4px;" alt="Figure 1.5a: vector combination diagram">
+<div class="ln" id="capA" style="left:123.4px; top:318.7px; width:234.7px; font-size:15px; line-height:19.4px; text-align:center; white-space:nowrap;">Figure 1.5: Problems 17–18 in a plane</div>
+<img class="ln" id="figB" src="img/024_fig-b.jpg" style="left:393.9px; top:138.3px; width:223.3px; height:185.2px;" alt="Figure 1.5b: three-dimensional vector diagram">
+<div class="ln" id="capB" style="left:377.2px; top:314.1px; width:258.3px; font-size:15px; line-height:19.4px; text-align:center; white-space:nowrap;">Problems 19–22 in 3-dimensional space</div>
+<div class="ln" id="intro" style="left:101.3px; top:361.3px; width:510.5px; font-size:14.9px; line-height:19.4px; white-space:nowrap;"><b>Problems 19–22 deal with <b><i>u</i></b>, <b><i>v</i></b>, <b><i>w</i></b> in three-dimensional space (see Figure 1.5b).</b></div>
+<div class="ln" id="n19" style="left:96.0px; top:393.3px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>19</b></div>
+<div class="ln j" id="p19" style="left:137.1px; top:391.4px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">Locate <span class="fr"><span class="n">1</span><span class="d">2</span></span><b><i>u</i></b> + <span class="fr"><span class="n">1</span><span class="d">3</span></span><b><i>v</i></b> + <span class="fr"><span class="n">1</span><span class="d">3</span></span><b><i>w</i></b> and <span class="fr"><span class="n">1</span><span class="d">2</span></span><b><i>u</i></b> + <span class="fr"><span class="n">1</span><span class="d">2</span></span><b><i>w</i></b> in Figure 1.5b. Challenge problem: Under</div>
+<div class="ln j" id="p19_l1" style="left:137.1px; top:410.8px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">what restrictions on <i>c, d, e,</i> will the combinations <i>c</i><b><i>u</i></b> + <i>d</i><b><i>v</i></b> + <i>e</i><b><i>w</i></b> fill in the dashed</div>
+<div class="ln j" id="p19_l2" style="left:137.1px; top:430.2px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;">triangle? To stay in the triangle, one requirement is <i>c</i> ≥ 0, <i>d</i> ≥ 0, <i>e</i> ≥ 0.</div>
+<div class="ln" id="n20" style="left:96.0px; top:464.9px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>20</b></div>
+<div class="ln j" id="p20" style="left:137.1px; top:464.6px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">The three dashed lines in the triangle are <b><i>v</i></b> − <b><i>u</i></b> and <b><i>w</i></b> − <b><i>v</i></b> and <b><i>u</i></b> − <b><i>w</i></b>. Their sum is</div>
+<div class="ln j" id="p20_l1" style="left:137.1px; top:484.0px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">______. Draw the head-to-tail addition around a plane triangle of (3, 1) plus (−1, 1)</div>
+<div class="ln j" id="p20_l2" style="left:137.1px; top:503.4px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;">plus (−2, −2).</div>
+<div class="ln" id="n21" style="left:96.0px; top:532.7px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>21</b></div>
+<div class="ln j" id="p21" style="left:137.1px; top:532.4px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">Shade in the pyramid of combinations <i>c</i><b><i>u</i></b> + <i>d</i><b><i>v</i></b> + <i>e</i><b><i>w</i></b> with <i>c</i> ≥ 0, <i>d</i> ≥ 0, <i>e</i> ≥ 0 and</div>
+<div class="ln j" id="p21_l1" style="left:137.1px; top:551.8px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;"><i>c</i> + <i>d</i> + <i>e</i> ≤ 1. Mark the vector <span class="fr"><span class="n">1</span><span class="d">2</span></span>(<b><i>u</i></b> + <b><i>v</i></b> + <b><i>w</i></b>) as inside or outside this pyramid.</div>
+<div class="ln" id="n22" style="left:96.0px; top:582.2px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>22</b></div>
+<div class="ln j" id="p22" style="left:137.1px; top:580.4px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">If you look at <i>all</i> combinations of those <b><i>u</i></b>, <b><i>v</i></b>, and <b><i>w</i></b>, is there any vector that can’t be</div>
+<div class="ln j" id="p22_l1" style="left:137.1px; top:599.8px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;">produced from <i>c</i><b><i>u</i></b> + <i>d</i><b><i>v</i></b> + <i>e</i><b><i>w</i></b>? Different answer if <b><i>u</i></b>, <b><i>v</i></b>, <b><i>w</i></b> are all in ______.</div>
+<div class="ln" id="subhead" style="left:313.2px; top:635.3px; width:156.2px; font-size:18.5px; line-height:19.4px; text-align:center; white-space:nowrap;"><b>Challenge Problems</b></div>
+<div class="ln" id="n23" style="left:96.0px; top:669.9px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>23</b></div>
+<div class="ln j" id="p23" style="left:137.1px; top:671.1px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">How many corners does a cube have in 4 dimensions? How many 3D faces?</div>
+<div class="ln j" id="p23_l1" style="left:137.1px; top:690.5px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">How many edges? A typical corner is (0, 0, 1, 0). A typical edge goes to (0, 1, 0, 0).</div>
+<div class="ln" id="n24" style="left:96.0px; top:721.7px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>24</b></div>
+<div class="ln j" id="p24" style="left:137.1px; top:720.6px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">Find <i>two different combinations</i> of the three vectors <b><i>u</i></b> = (1, 3) and <b><i>v</i></b> = (2, 7) and</div>
+<div class="ln j" id="p24_l1" style="left:137.1px; top:740.0px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;"><b><i>w</i></b> = (1, 5) that produce <b><i>b</i></b> = (0, 1). Slightly delicate question: If I take any three</div>
+<div class="ln j" id="p24_l2" style="left:137.1px; top:759.4px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">vectors <b><i>u</i></b>, <b><i>v</i></b>, <b><i>w</i></b> in the plane, will there always be two different combinations that</div>
+<div class="ln j" id="p24_l3" style="left:137.1px; top:778.8px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;">produce <b><i>b</i></b> = (0, 1)?</div>
+<div class="ln" id="n25" style="left:96.0px; top:807.0px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>25</b></div>
+<div class="ln j" id="p25" style="left:137.1px; top:807.5px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">The linear combinations of <b><i>v</i></b> = (<i>a</i>, <i>b</i>) and <b><i>w</i></b> = (<i>c</i>, <i>d</i>) fill the plane unless ______.</div>
+<div class="ln j" id="p25_l1" style="left:137.1px; top:826.9px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">Find four vectors <b><i>u</i></b>, <b><i>v</i></b>, <b><i>w</i></b>, <b><i>z</i></b> with four components each so that their combinations</div>
+<div class="ln j" id="p25_l2" style="left:137.1px; top:846.3px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;"><i>c</i><b><i>u</i></b> + <i>d</i><b><i>v</i></b> + <i>e</i><b><i>w</i></b> + <i>f</i>&thinsp;<b><i>z</i></b> produce all vectors (<b><i>b</i></b><sub>1</sub>, <b><i>b</i></b><sub>2</sub>, <b><i>b</i></b><sub>3</sub>, <b><i>b</i></b><sub>4</sub>) in four-dimensional space.</div>
+<div class="ln" id="n26" style="left:96.0px; top:874.8px; width:28.2px; font-size:17px; line-height:19.4px; text-align:right; white-space:nowrap;"><b>26</b></div>
+<div class="ln j" id="p26" style="left:137.1px; top:873.7px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify; text-align-last:justify;">Write down three equations for <i>c, d, e</i> so that <i>c</i><b><i>u</i></b> + <i>d</i><b><i>v</i></b> + <i>e</i><b><i>w</i></b> = <b><i>b</i></b>. Can you somehow</div>
+<div class="ln j" id="p26_l1" style="left:137.1px; top:893.1px; width:519.7px; font-size:16px; line-height:19.4px; text-align:justify;">find <i>c, d, e</i> for this <b><i>b</i></b>?</div>
+<div class="ln" id="mu" style="left:186.7px; top:942.7px; width:33.5px; font-size:16px; line-height:19.4px; white-space:nowrap;"><b><i>u</i></b> =</div>
+<div class="ln" id="mu_m" style="left:224.0px; top:930.8px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.8px"><span class="mc">2</span></div><div style="line-height:19.8px"><span class="mc">−1</span></div><div style="line-height:19.8px"><span class="mc">0</span></div></span></span></div>
+<div class="ln" id="mv" style="left:291.8px; top:945.8px; width:33.5px; font-size:16px; line-height:19.4px; white-space:nowrap;"><b><i>v</i></b> =</div>
+<div class="ln" id="mv_m" style="left:325.4px; top:933.8px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.8px"><span class="mc">−1</span></div><div style="line-height:19.8px"><span class="mc">2</span></div><div style="line-height:19.8px"><span class="mc">−1</span></div></span></span></div>
+<div class="ln" id="mw" style="left:396.2px; top:948.8px; width:33.5px; font-size:16px; line-height:19.4px; white-space:nowrap;"><b><i>w</i></b> =</div>
+<div class="ln" id="mw_m" style="left:428.2px; top:936.9px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.8px"><span class="mc">0</span></div><div style="line-height:19.8px"><span class="mc">−1</span></div><div style="line-height:19.8px"><span class="mc">2</span></div></span></span></div>
+<div class="ln" id="mb" style="left:504.4px; top:955.6px; width:33.5px; font-size:16px; line-height:19.4px; white-space:nowrap;"><b><i>b</i></b> =</div>
+<div class="ln" id="mb_m" style="left:531.9px; top:939.9px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.8px"><span class="mc">1</span></div><div style="line-height:19.8px"><span class="mc">0</span></div><div style="line-height:19.8px"><span class="mc">0</span></div></span></span>.</div>
+</div>
+</body>
+</html>

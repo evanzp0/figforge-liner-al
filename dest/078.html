@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Page 64 — 2.4 Permutations and Transposes</title>
+<style>
+html { background:#f0f0ee; }
+body { margin:0; padding:36px 0; display:flex; justify-content:center; }
+.sheet { width:774px; height:1098px; background:#fff; border:1px solid #d8d8d4;
+  box-shadow:0 1px 5px rgba(0,0,0,.10); position:relative; box-sizing:border-box;
+  font-family:"Liberation Serif","Times New Roman",Times,serif; color:#111;
+  -webkit-font-smoothing:antialiased; }
+.ln { position:absolute; margin:0; }
+.j { text-align:justify; text-align-last:auto; }
+b, strong { font-weight:bold; }
+i, em { font-style:italic; }
+sup { font-size:66%; line-height:0; vertical-align:super; }
+sub { font-size:66%; line-height:0; vertical-align:sub; }
+.fr { display:inline-block; text-align:center; vertical-align:-0.62em; line-height:1; font-size:76%; }
+.fr .n { display:block; padding:0 3px; }
+.fr .d { display:block; border-top:1.1px solid #111; padding:0 3px; }
+.brk { position:relative; display:inline-block; padding:1px 7px; }
+.brk::before { content:""; position:absolute; left:0; top:2px; bottom:-1px; width:6px;
+  border-left:1.5px solid #111; border-top:1.5px solid #111; border-bottom:1.5px solid #111; }
+.brk::after { content:""; position:absolute; right:0; top:2px; bottom:-1px; width:6px;
+  border-right:1.5px solid #111; border-top:1.5px solid #111; border-bottom:1.5px solid #111; }
+.mrows { display:flex; flex-direction:column; }
+.mrows > div { display:flex; justify-content:center; }
+.mc { flex:0 0 auto; min-width:21.5px; text-align:center; white-space:nowrap; }
+/* v4 matrix-cell standard: cell width = original column pitch (measured on
+   the flattened source, scan*0.6038): 3-col digit matrices 35.6-37.3 scan
+   -> 21.5px; 4-col 34.3 scan -> 20.5px; identity mres diagonal step 42.5
+   scan -> 25.5px (empty cells keep the same width, never collapse);
+   single-column vectors (vx, vr): natural width, centred (snug bracket). */
+.m4 .mc { min-width:20.5px; }
+#mres .mc { min-width:25.5px; }
+#vx .mc, #vr .mc { min-width:0; }
+</style>
+<style>.ln.j{word-spacing:-1.2px;letter-spacing:-0.5px}</style>
+</head>
+<body>
+<div class="sheet">
+<div class="ln" id="header" style="left:390.1px; top:88.1px; width:266.9px; font-size:14px; line-height:19.9px; text-align:right; white-space:nowrap;"><b>Chapter 2. Solving Linear Equations <i>Ax</i> = <i>b</i></b></div>
+<div class="ln" id="folio" style="left:122.6px; top:94.9px; width:36.2px; font-size:16.5px; line-height:19.9px; white-space:nowrap;"><b>64</b></div>
+<div class="ln" id="heading" style="left:126.8px; top:134.3px; width:338.1px; font-size:26px; line-height:19.9px; white-space:nowrap;"><b>2.4&emsp;Permutations and Transposes</b></div>
+<div class="ln" id="box" style="left:96.0px; top:164.1px; width:581.5px; height:164.2px; border:1.5px solid #111; border-radius:16px;"></div>
+<div class="ln j" id="boxitems" style="left:106.9px; top:165.0px; width:565.2px; font-size:16px; line-height:32.8px; text-align:justify; text-align-last:justify; word-spacing:-1.2px; letter-spacing:-0.55px;"><b>1</b>&ensp;A <b>permutation matrix <b><i>P</i></b></b> has the same rows as <i>I</i> (in any order). There are <b><i>n</i></b>&thinsp;! different orders.</div>
+<div class="ln j" id="boxitems_l1" style="left:106.9px; top:197.8px; width:565.2px; font-size:16px; line-height:32.8px; text-align:justify; word-spacing:-1.2px; letter-spacing:-0.55px;"><b>2</b>&ensp;Then <b><i>Px</i></b> puts the components <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, …, <i>x</i><sub>n</sub> in that new order. And <b><i>P</i></b><sup><b>T</b></sup> equals <b><i>P</i></b><sup>−1</sup>.</div>
+<div class="ln j" id="boxitems_l2" style="left:106.9px; top:230.6px; width:565.2px; font-size:16px; line-height:32.8px; text-align:justify; word-spacing:-1.2px; letter-spacing:-0.55px;"><b>3</b>&ensp;Columns of <b><i>A</i></b> are rows of <b><i>A</i></b><sup><b>T</b></sup>. The transposes of <b><i>Ax</i></b> and <b><i>AB</i></b> are <b><i>x</i></b><sup><b>T</b></sup><b><i>A</i></b><sup><b>T</b></sup> and <b><i>B</i></b><sup><b>T</b></sup><b><i>A</i></b><sup><b>T</b></sup>.</div>
+<div class="ln j" id="boxitems_l3" style="left:106.9px; top:263.4px; width:565.2px; font-size:16px; line-height:32.8px; text-align:justify; text-align-last:justify; word-spacing:-1.2px; letter-spacing:-0.55px;"><b>4</b>&ensp;The idea behind <b><i>A</i></b><sup><b>T</b></sup> is that <b><i>Ax</i></b> · <b><i>y</i></b> equals <b><i>x</i></b> · <b><i>A</i><sup><b>T</b></sup><i>y</i></b> because (<b><i>Ax</i></b>)<sup><b>T</b></sup><b><i>y</i></b> = <b><i>x</i><sup><b>T</b></sup><i>A</i><sup><b>T</b></sup><i>y</i></b> = <b><i>x</i><sup><b>T</b></sup>(<i>A</i><sup><b>T</b></sup><i>y</i>)</b>.</div>
+<div class="ln j" id="boxitems_l4" style="left:106.9px; top:296.2px; width:565.2px; font-size:16px; line-height:32.8px; text-align:justify; word-spacing:-1.2px; letter-spacing:-0.55px;"><b>5</b>&ensp;A <b>symmetric matrix</b> has <b><i>S</i></b><sup><b>T</b></sup> = <b><i>S</i></b>. The product <b><i>S</i> = <i>A</i><sup><b>T</b></sup><i>A</i></b> is always symmetric.</div>
+<div class="ln" id="subhead" style="left:541.0px; top:351.2px; width:114.1px; font-size:19px; line-height:19.9px; text-align:right; white-space:nowrap;"><b>Permutations</b></div>
+<div class="ln j" id="perm" style="left:125.6px; top:381.6px; width:530.1px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify;">Permutation matrices have a 1 in every row and a 1 in every column.&ensp;All other entries</div>
+<div class="ln j" id="perm_l1" style="left:125.6px; top:401.5px; width:530.1px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify;">are zero. When this matrix <b><i>P</i></b> multiplies a vector, it changes the order of its components:</div>
+<div class="ln" id="shiftlbl" style="left:191.4px; top:436.5px; width:111.7px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b>Circular shift of <i>x</i><br>1, 2, 3 to 3, 1, 2</b></div>
+<div class="ln" id="pxeq" style="left:328.5px; top:449.2px; width:48.3px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b><i>Px</i></b> =</div>
+<div class="ln" id="mP" style="left:375.6px; top:432.8px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div></span></span></div>
+<div class="ln" id="vx" style="left:464.9px; top:432.8px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc"><i>x</i><sub>3</sub></span></div><div style="line-height:19.6px"><span class="mc"><i>x</i><sub>1</sub></span></div><div style="line-height:19.6px"><span class="mc"><i>x</i><sub>2</sub></span></div></span></span></div>
+<div class="ln" id="eq1" style="left:512.6px; top:466.2px; width:18.1px; font-size:16px; line-height:19.9px; white-space:nowrap;">=</div>
+<div class="ln" id="vr" style="left:537.4px; top:433.4px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc"><i>x</i><sub>3</sub></span></div><div style="line-height:19.6px"><span class="mc"><i>x</i><sub>1</sub></span></div><div style="line-height:19.6px"><span class="mc"><i>x</i><sub>2</sub></span></div></span></span></div>
+<div class="ln j" id="forthis" style="left:125.0px; top:495.7px; width:531.3px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify;">For this example, <b><i>P</i></b> shifts <i>x</i><sub>1</sub> down to second position. If we repeat, <b><i>P</i></b><sup>2</sup> shifts <i>x</i><sub>1</sub> to third</div>
+<div class="ln j" id="forthis_l1" style="left:125.0px; top:515.6px; width:531.3px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify;">position. Then <b><i>P</i></b><sup>3</sup> = <i>I</i> and we recover the original order <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, <i>x</i><sub>3</sub>.</div>
+<div class="ln j" id="shuffling" style="left:125.6px; top:538.0px; width:530.1px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify; text-indent:19.9px;">Shuffling a deck of cards would be a permutation of size <i>n</i> = 52. Persi Diaconis proved</div>
+<div class="ln j" id="shuffling_l1" style="left:125.6px; top:557.9px; width:530.1px; font-size:16px; line-height:19.9px; text-align:justify;">that a new deck is well shuffled after 7 random permutations.</div>
+<div class="ln j" id="thereare" style="left:125.6px; top:585.1px; width:531.3px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify; text-indent:18.1px;">There are 3! = 6 permutation matrices of size 3, and 4! = 24 permutations of size</div>
+<div class="ln j" id="thereare_l1" style="left:125.6px; top:605.0px; width:531.3px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify;">4. Here are specific tasks for these 4 by 4 permutations, when they multiply a vector <b><i>x</i></b>&thinsp;:</div>
+<div class="ln" id="revlbl" style="left:123.2px; top:640.6px; width:60.4px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b>Reverse<br>the order<br>to <i>x</i><sub>4</sub>, <i>x</i><sub>3</sub>, <i>x</i><sub>2</sub>, <i>x</i><sub>1</sub></b></div>
+<div class="ln m4" id="mrev" style="left:251.8px; top:638.1px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span></div></span></span></div>
+<div class="ln" id="evenlbl" style="left:376.8px; top:639.4px; width:150.9px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b>Even <i>x</i><sub>0</sub>, <i>x</i><sub>2</sub><br>before odd <i>x</i><sub>1</sub>, <i>x</i><sub>3</sub> in the<br>Fast Fourier Transform</b></div>
+<div class="ln m4" id="meven" style="left:541.6px; top:636.9px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div></span></span></div>
+<div class="ln" id="circlbl" style="left:123.2px; top:733.6px; width:120.8px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b>Circular shift<br>Move <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, <i>x</i><sub>3</sub>, <i>x</i><sub>4</sub><br>to <i>x</i><sub>4</sub>, <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, <i>x</i><sub>3</sub></b></div>
+<div class="ln m4" id="mcirc" style="left:251.8px; top:734.7px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div></span></span></div>
+<div class="ln" id="exchlbl" style="left:376.2px; top:751.7px; width:150.9px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b>Exchange rows 2 and 3<br>Exchange again<br>to reset 1, 2, 3, 4</b></div>
+<div class="ln m4" id="mexch" style="left:541.6px; top:747.3px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div></span></span></div>
+<div class="ln" id="half1" style="left:125.6px; top:835.6px; width:532.6px; font-size:16px; line-height:19.9px; word-spacing:-1.2px; letter-spacing:-0.5px; white-space:nowrap;">Half of the <i>n</i>! permutations of size <i>n</i> are “even” and half are “odd”. An even permutation</div>
+<div class="ln j" id="half23" style="left:125.6px; top:853.2px; width:521.7px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify; word-spacing:-1.4px; letter-spacing:-0.6px;">needs an even number of simple row exchanges to reach the matrix <i>I</i>. The last example</div>
+<div class="ln j" id="half23_l1" style="left:125.6px; top:873.1px; width:521.7px; font-size:16px; line-height:19.9px; text-align:justify; text-align-last:justify; word-spacing:-1.4px; letter-spacing:-0.6px;">(1 exchange) was odd. The first example (exchange 1 and 4, exchange 2 and 3) was even.</div>
+<div class="ln" id="rowslbl" style="left:129.8px; top:905.1px; width:150.9px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b>The rows of <b><i>P</i></b> are<br>the columns of <b><i>P</i></b><sup>−1</sup><br><b><i>P</i></b><sup>−1</sup> = transpose of <b><i>P</i></b></b></div>
+<div class="ln" id="ppeq" style="left:284.4px; top:926.3px; width:60.4px; font-size:16px; line-height:19.9px; white-space:nowrap;"><b><i>P</i></b><sup>−1</sup><b><i>P</i></b> =</div>
+<div class="ln" id="minv" style="left:348.4px; top:917.0px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div></span></span></div>
+<div class="ln" id="mp" style="left:434.1px; top:919.4px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">0</span><span class="mc">1</span></div><div style="line-height:19.6px"><span class="mc">1</span><span class="mc">0</span><span class="mc">0</span></div><div style="line-height:19.6px"><span class="mc">0</span><span class="mc">1</span><span class="mc">0</span></div></span></span></div>
+<div class="ln" id="eq2" style="left:516.8px; top:941.4px; width:18.1px; font-size:16px; line-height:19.9px; white-space:nowrap;">=</div>
+<div class="ln" id="mres" style="left:538.0px; top:922.5px; font-size:16px;"><span class="brk"><span class="mrows"><div style="line-height:19.6px"><span class="mc">1</span><span class="mc"></span><span class="mc"></span></div><div style="line-height:19.6px"><span class="mc"></span><span class="mc">1</span><span class="mc"></span></div><div style="line-height:19.6px"><span class="mc"></span><span class="mc"></span><span class="mc">1</span></div></span></span></div>
+<div class="ln" id="eqi" style="left:627.3px; top:935.5px; width:36.2px; font-size:16px; line-height:19.9px; white-space:nowrap;">= <i>I</i></div>
+</div>
+</body>
+</html>
